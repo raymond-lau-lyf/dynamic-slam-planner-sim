@@ -60,3 +60,4 @@ src/CMakeLists.txt
 src/local_planner/cmu/vehicle_simulator/mesh
 src/local_planner/cmu/vehicle_simulator/models
 # src/dyna_SLAM
+*.bag
