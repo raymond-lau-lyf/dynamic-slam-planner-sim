@@ -1,0 +1,124 @@
+<launch>
+    <arg name="teleop_base" default="false" />
+        <arg name="is_fast_lio" default="ture" />
+    <arg name="gui" default="true" />
+    <arg name="rviz" default="true" />
+    <arg name="paused" default="false" />
+    <arg name="verbose" default="false" />
+    <arg name="world_name" default="$(find mm_gazebo)/worlds/tracked_vehicle_simple.world" />
+    <arg name="world_enable" default="true" />
+    <arg name="model_pose" default="-x 0 -y 4 -z 0.15 -R 0 -P 0 -Y 0" />
+ 
+    <env name="GAZEBO_MODEL_PATH" value="$(find vehicle_simulator)/models/:$(optenv GAZEBO_MODEL_PATH)" />
+    <arg name="ground_truth" default="false"/>
+    <!-- launch gazebo world -->
+    <group if="$(arg world_enable)">
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_name)" />
+    <arg name="paused" value="false" />
+    <arg name="use_sim_time" value="true" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="headless" value="false" />
+    <arg name="debug" value="false" />
+    <arg name="verbose" value="false" />
+  </include>
+
+    </group>
+
+    <!-- models -->
+    <include file="$(find mm_gazebo)/launch/ls/mr2000_models.launch">
+        <arg name="model" value="$(find mr2000)/urdf/mr2000_motor.urdf.xacro" />
+        <arg name="model_pose" value="$(arg model_pose)" />
+    </include>
+
+
+    <arg name="moveit_sensor" default="false" />
+    <include file="$(find mm_gazebo)/launch/ls/ls_moveit_planning_execution.launch">
+        <arg name="rviz" value="false" />
+        <arg name="load_robot_description" value="false" />
+        <arg name="sensor_topic" value="/sensor_scan" />
+        <arg name="moveit_sensor" value="$(arg moveit_sensor)" />
+    </include>
+
+
+    <!-- moveit launch file -->
+    <!-- <arg name="moveit_sensor" default="false" />
+    <include file="$(find mm_gazebo)/launch/ls/ls_moveit_planning_execution.launch">
+        <arg name="rviz" value="false" />
+        <arg name="load_robot_description" value="false" />
+        <arg name="sensor_topic" value="/velodyne_points" />
+        <arg name="moveit_sensor" value="$(arg moveit_sensor)" />
+    </include> -->
+    <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="/use_gui" value="false" />
+        <rosparam param="/source_list">[/joint_states]</rosparam>
+    </node> -->
+<!-- 
+    <node name="cmd_relay" pkg="topic_tools" type="relay" args="/cmd_vel /track_velocity_controller/cmd_vel" output="screen" />
+
+    <node pkg="teleop_twist_keyboard" type="twist_to_std_msg.py" name="twist_to_std_msg_node" />
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard_node" launch-prefix="xterm -e" /> -->
+    <node name="cmd_relay" pkg="topic_tools" type="relay" args="/cmd_vel /mr2000_velocity_controller/cmd_vel" output="screen" />
+    <group if="$(arg teleop_base)">
+        <node pkg="mm_teleop" type="mm_teleop.py" name="teleop_vel" launch-prefix="xterm -e" required="false">
+            <param name="topic_name" value="/cmd_vel" />
+        </node>
+    </group>
+
+    # odom ground truth to tf and path
+    # 在urdf中, base_footprint与vehicle_base_link重合
+    <group if="$(arg ground_truth)">
+        <!-- <node pkg="odom_to_tf_and_path" type="odom2tfAndPath" name="odom_gt_tf" output="screen">
+            <param name="odom_topic" value="/ls_odom_gt" />
+            <param name="parent_frame" value="world" />
+            <param name="child_frame" value="base_link" />
+            <param name="path_enable" value="true" />
+            <param name="path_topic" value="/ls_path_gt" />
+            <param name="path_dist_topic" value="/traveling_dist"/>
+            <param name="path_points_topic" value="/ls_path_points_gt" />
+            <param name="path_dist_threshold" value="0.1" />
+            <param name="path_angle_threshold" value="2" />
+        </node> -->
+    </group>
+    <group unless="$(arg ground_truth)">
+
+      <group if="$(arg is_fast_lio)">
+        <node pkg="tf" type="static_transform_publisher" name="body_to_base_link" args="0.0 0 0.0 0 0 0 /body /base_link 10" />
+        <node pkg="tf" type="static_transform_publisher" name="map_to_camera_init" args="0 0 0 0 0 0 /map /camera_init 10" /> 
+        <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="0 0 0 0 0 0 /world /map 10" />
+        <include file="$(find fast_lio)/launch/mapping_velodyne_ls.launch">
+          <arg name="rviz" value="false"/>
+        </include> 
+      </group>
+      <group unless="$(arg is_fast_lio)">
+        <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="0 0 0 0 0 0 /world /map 10" />
+        <include file="$(find lio_sam)/launch/run.launch">
+            <arg name="param_file" value="params_mr"/>
+            <arg name="rviz" value="false"/>
+        </include> 
+      </group>
+      <!-- <node pkg="tf" type="static_transform_publisher" name="body_to_base_link" args="0  0 -0.655 0 0 0 /body /base_link 10" /> -->
+
+        <!-- <node pkg="odom_to_tf_and_path" type="odom2tfAndPath" name="odom_gt_tf" output="screen">
+            <param name="odom_topic" value="/Odometry" />
+            <param name="odom_output_topic" value="/ls_odom_rw" />
+            <param name="parent_frame" value="world" />
+            <param name="child_frame" value="base_link" />
+            <param name="lidar_frame" value="/sensor" />
+            <param name="path_enable" value="true" />
+            <param name="path_topic" value="/ls_path_gt" />
+            <param name="path_dist_topic" value="/traveling_dist"/>
+            <param name="path_points_topic" value="/ls_path_points_gt" />
+            <param name="path_dist_threshold" value="0.1" />
+            <param name="path_angle_threshold" value="2" />
+        </node> 
+         -->
+    </group>
+
+    <group if="$(arg rviz)">
+        <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find mm_gazebo)/rviz/ls_demo.rviz" />
+    </group>
+    # 对点云进行self filter滤波
+    <!-- <include file="$(find filter_pkg)/launch/filter.launch" /> -->
+
+</launch>

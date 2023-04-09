@@ -1,0 +1,4 @@
+nav_msgs/Path global_path
+nav_msgs/Odometry curr_odom
+-------
+nav_msgs/Path local_path

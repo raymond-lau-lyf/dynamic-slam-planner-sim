@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro"  name="swing_arm">
+<xacro:macro name="swing_arm" params="mass offset_x">
+    <link name="arm_body">
+        <inertial>
+            <mass value="${mass}"/>
+            <inertia ixx="0.0250083333333" ixy="0" ixz="0" iyy="0.0241666666667" iyz="0" izz="0.0425083333333"/>
+        </inertial>
+        <visual>
+            <geometry>
+                <box size="0.375 0.18 0.11"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.375 0.18 0.11"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="arm_connector">
+        <inertial>
+            <mass value="0.2"/>
+            <!-- assuming axis of cylinder is y, not z -->
+            <inertia ixx="0.004655" ixy="0" ixz="0" iyy="0.00064" iyz="0" izz="0.004655"/>
+        </inertial>
+        <visual>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.25" radius="0.035"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.25" radius="0.035"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="arm_connector_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="-0.188 0 0"/>
+        <parent link="arm_connector"/>
+        <child link="arm_body"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <!-- sprocket driving the track : cylinder -->
+    <link name="sprocket">
+        <inertial>
+            <mass value="0.2"/>
+            <!-- assuming axis of cylinder is y, not z -->
+            <inertia ixx="0.004655" ixy="0" ixz="0" iyy="0.00064" iyz="0" izz="0.004655"/>
+        </inertial>
+        <visual>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.18" radius="0.055"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.18" radius="0.055"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="sprocket_axle" type="fixed">
+        <origin rpy="0 0 0" xyz="0.188 0 0"/>
+        <parent link="arm_body"/>
+        <child link="sprocket"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+    <!-- <transmission name="arm_sprocket_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="sprocket_axle">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="sprocket_actuator">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission> -->
+    <!-- idler on the other side of the sprocket: cylinder -->
+    <link name="idler">
+        <inertial>
+            <mass value="0.2"/>
+            <!-- assuming axis of cylinder is y, not z -->
+            <inertia ixx="0.004655" ixy="0" ixz="0" iyy="0.00064" iyz="0" izz="0.004655"/>
+        </inertial>
+        <visual>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.18" radius="0.055"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.18" radius="0.055"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="idler_axle" type="fixed">
+        <origin rpy="0 0 0" xyz="-0.188 0 0"/>
+        <parent link="arm_body"/>
+        <child link="idler"/>
+    </joint>
+    <gazebo reference="arm_body">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    <gazebo reference="arm_connector">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    <gazebo reference="sprocket">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    <gazebo reference="idler">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+</xacro:macro>
+</robot>

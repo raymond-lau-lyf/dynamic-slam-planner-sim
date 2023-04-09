@@ -1,0 +1,27 @@
+<launch>
+
+    <arg name="rviz" default="true"/>
+    <arg name="planner" default="twd_teb"/>
+
+    # gmapping for 2d laser mapping: gmapping主要用来提供定位和地图信息
+    <include file="$(find wbot_slam_demo)/launch/twd_2d_gmapping_demo.launch">
+        <arg name="rviz" default="false"/>
+    </include>
+
+    # fake localization
+    <!-- <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 /map /world 50" /> -->
+
+    <arg name="use_sim" default="true"/>
+    <!-- 运行move_base节点 -->
+    <include file="$(find wbot_navigation)/launch/twd_teb_move_base.launch">
+        <arg name="vel_topic" value="/twd_velocity_controller/cmd_vel"/>
+        <!-- <arg name="odom_topic" value="/twd_odom_gt"/> -->
+        <arg name="prefix" value="$(arg planner)"/>
+    </include>
+
+    <!-- 运行rviz -->
+    <group if="$(arg rviz)">
+        <node pkg="rviz" type="rviz" name="rviz_move_base" args="-d $(find wbot_navigation)/rviz/nav.rviz"/>
+    </group>
+
+</launch>

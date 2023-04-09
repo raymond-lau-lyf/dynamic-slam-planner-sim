@@ -1,0 +1,1174 @@
+Panels:
+  - Class: rviz/Displays
+    Help Height: 0
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /TF1/Frames1
+        - /path_history1/path_gt1
+        - /nav1/costmap1/global_costmap1
+        - /test1/test_raycast1/Marker1
+        - /exploration1/fs_explorer1
+        - /exploration1/fs_explorer1/candidate1
+        - /exploration1/fs_explorer1/candidate1/Namespaces1
+      Splitter Ratio: 0.7872806787490845
+    Tree Height: 1167
+  - Class: rviz/Selection
+    Name: Selection
+  - Class: rviz/Tool Properties
+    Expanded:
+      - /2D Pose Estimate1
+      - /2D Nav Goal1
+      - /Publish Point1
+    Name: Tool Properties
+    Splitter Ratio: 0.5886790156364441
+  - Class: rviz/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+  - Class: rviz/Time
+    Experimental: false
+    Name: Time
+    SyncMode: 0
+    SyncSource: point_cloud
+Preferences:
+  PromptSaveOnExit: true
+Toolbars:
+  toolButtonStyle: 2
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 50
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        back_caster_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        front_caster_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        laser_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        sensor_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        velodyne:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        velodyne_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Name: RobotModel
+      Robot Description: robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+        back_caster_link:
+          Value: false
+        base_link:
+          Value: false
+        camera_link:
+          Value: false
+        camera_optical_frame:
+          Value: false
+        front_caster_link:
+          Value: false
+        imu_link:
+          Value: false
+        laser_link:
+          Value: false
+        left_wheel_link:
+          Value: false
+        map:
+          Value: false
+        right_wheel_link:
+          Value: false
+        sensor_link:
+          Value: false
+        velodyne:
+          Value: true
+        velodyne_base_link:
+          Value: false
+        world:
+          Value: true
+      Marker Scale: 5
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        map:
+          world:
+            base_link:
+              back_caster_link:
+                {}
+              front_caster_link:
+                {}
+              left_wheel_link:
+                {}
+              right_wheel_link:
+                {}
+              sensor_link:
+                camera_link:
+                  camera_optical_frame:
+                    {}
+                imu_link:
+                  {}
+                laser_link:
+                  {}
+                velodyne_base_link:
+                  velodyne:
+                    {}
+      Update Interval: 0
+      Value: true
+    - Angle Tolerance: 0.10000000149011612
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.30000001192092896
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: true
+      Keep: 1
+      Name: Odometry
+      Position Tolerance: 0.10000000149011612
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 255; 25; 0
+        Head Length: 0.30000001192092896
+        Head Radius: 0.10000000149011612
+        Shaft Length: 1
+        Shaft Radius: 0.05000000074505806
+        Value: Arrow
+      Topic: /twd_odom_gt
+      Unreliable: false
+      Value: true
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 10
+            Min Value: -10
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/LaserScan
+          Color: 255; 255; 255
+          Color Transformer: FlatColor
+          Decay Time: 0
+          Enabled: false
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Min Color: 0; 0; 0
+          Name: LaserScan
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 5
+          Size (m): 0.009999999776482582
+          Style: Points
+          Topic: /scan
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: false
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 4.982339382171631
+            Min Value: 0.04284343123435974
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Min Color: 0; 0; 0
+          Name: point_cloud
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 2
+          Size (m): 0.10000000149011612
+          Style: Points
+          Topic: /velodyne_points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Class: rviz/Image
+          Enabled: false
+          Image Topic: /kinect/depth/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: depth_image
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: false
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 2.4998698234558105
+            Min Value: -3.713369369506836e-5
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: RGB8
+          Decay Time: 0
+          Enabled: false
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Min Color: 0; 0; 0
+          Name: kinect_points
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.009999999776482582
+          Style: Flat Squares
+          Topic: /kinect/depth/points
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: false
+        - Class: rviz/Image
+          Enabled: false
+          Image Topic: /kinect/rgb/image_raw
+          Max Value: 1
+          Median window: 5
+          Min Value: 0
+          Name: rgb_Image
+          Normalize Range: true
+          Queue Size: 2
+          Transport Hint: raw
+          Unreliable: false
+          Value: false
+      Enabled: true
+      Name: sensors_data
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 10
+            Min Value: -10
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: Intensity
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Min Color: 0; 0; 0
+          Name: path_gt
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.15000000596046448
+          Style: Flat Squares
+          Topic: /twd_path_points_gt
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Alpha: 1
+          Buffer Length: 1
+          Class: rviz/Path
+          Color: 25; 255; 0
+          Enabled: false
+          Head Diameter: 0.30000001192092896
+          Head Length: 0.20000000298023224
+          Length: 0.30000001192092896
+          Line Style: Lines
+          Line Width: 0.029999999329447746
+          Name: path_gt
+          Offset:
+            X: 0
+            Y: 0
+            Z: 0
+          Pose Color: 255; 85; 255
+          Pose Style: None
+          Radius: 0.029999999329447746
+          Shaft Diameter: 0.10000000149011612
+          Shaft Length: 0.10000000149011612
+          Topic: /twd_path_gt
+          Unreliable: false
+          Value: false
+      Enabled: true
+      Name: path_history
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 0.800000011920929
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 2.500957727432251
+            Min Value: -0.0071495710872113705
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: AxisColor
+          Decay Time: 0
+          Enabled: true
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Min Color: 0; 0; 0
+          Name: map_by_tf
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 2
+          Size (m): 0.009999999776482582
+          Style: Points
+          Topic: /pc_map
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: true
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 2.549999952316284
+                Min Value: -0.05000000074505806
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 255; 255
+              Color Transformer: AxisColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: octomap_points
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.009999999776482582
+              Style: Flat Squares
+              Topic: /octomap_point_cloud_centers
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Class: octomap_rviz_plugin/OccupancyGrid
+              Enabled: true
+              Max. Height Display: 3.4028234663852886e+38
+              Max. Octree Depth: 16
+              Min. Height Display: -3.4028234663852886e+38
+              Name: OccupancyGrid
+              Octomap Topic: /octomap_full
+              Queue Size: 5
+              Value: true
+              Voxel Alpha: 1
+              Voxel Coloring: Z-Axis
+              Voxel Rendering: Occupied Voxels
+          Enabled: true
+          Name: octomap
+      Enabled: false
+      Name: map
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 1
+          Arrow Length: 0.30000001192092896
+          Axes Length: 0.30000001192092896
+          Axes Radius: 0.009999999776482582
+          Class: rviz/PoseArray
+          Color: 255; 25; 0
+          Enabled: true
+          Head Length: 0.07000000029802322
+          Head Radius: 0.029999999329447746
+          Name: PoseArray
+          Shaft Length: 0.23000000417232513
+          Shaft Radius: 0.009999999776482582
+          Shape: Arrow (Flat)
+          Topic: /particlecloud
+          Unreliable: false
+          Value: true
+      Enabled: true
+      Name: amcl
+    - Class: rviz/Group
+      Displays:
+        - Alpha: 0.699999988079071
+          Class: rviz/Map
+          Color Scheme: map
+          Draw Behind: true
+          Enabled: true
+          Name: Map
+          Topic: /map
+          Unreliable: false
+          Use Timestamp: false
+          Value: true
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 0.699999988079071
+              Class: rviz/Map
+              Color Scheme: map
+              Draw Behind: false
+              Enabled: false
+              Name: local_costmap
+              Topic: /move_base/local_costmap/costmap
+              Unreliable: false
+              Use Timestamp: false
+              Value: false
+            - Alpha: 0.699999988079071
+              Class: rviz/Map
+              Color Scheme: map
+              Draw Behind: true
+              Enabled: true
+              Name: global_costmap
+              Topic: /move_base/global_costmap/costmap
+              Unreliable: false
+              Use Timestamp: false
+              Value: true
+            - Alpha: 1
+              Class: rviz/Polygon
+              Color: 25; 255; 0
+              Enabled: true
+              Name: Polygon
+              Topic: /move_base/global_costmap/footprint
+              Unreliable: false
+              Value: true
+          Enabled: true
+          Name: costmap
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 25; 255; 0
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.10000000149011612
+              Name: global_path
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /move_base/NavfnROS/plan
+              Unreliable: false
+              Value: true
+            - Alpha: 1
+              Buffer Length: 1
+              Class: rviz/Path
+              Color: 239; 41; 41
+              Enabled: true
+              Head Diameter: 0.30000001192092896
+              Head Length: 0.20000000298023224
+              Length: 0.30000001192092896
+              Line Style: Billboards
+              Line Width: 0.029999999329447746
+              Name: local_path
+              Offset:
+                X: 0
+                Y: 0
+                Z: 0
+              Pose Color: 255; 85; 255
+              Pose Style: None
+              Radius: 0.029999999329447746
+              Shaft Diameter: 0.10000000149011612
+              Shaft Length: 0.10000000149011612
+              Topic: /move_base/TebLocalPlannerROS/local_plan
+              Unreliable: false
+              Value: true
+          Enabled: true
+          Name: path
+        - Alpha: 1
+          Arrow Length: 0.30000001192092896
+          Axes Length: 0.30000001192092896
+          Axes Radius: 0.009999999776482582
+          Class: rviz/PoseArray
+          Color: 255; 25; 0
+          Enabled: true
+          Head Length: 0.07000000029802322
+          Head Radius: 0.029999999329447746
+          Name: teb_pose
+          Shaft Length: 0.23000000417232513
+          Shaft Radius: 0.009999999776482582
+          Shape: Arrow (Flat)
+          Topic: /move_base/TebLocalPlannerROS/teb_poses
+          Unreliable: false
+          Value: true
+        - Class: rviz/Marker
+          Enabled: false
+          Marker Topic: /move_base/TebLocalPlannerROS/teb_markers
+          Name: teb_marker
+          Namespaces:
+            {}
+          Queue Size: 100
+          Value: false
+      Enabled: true
+      Name: nav
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Group
+          Displays:
+            - Class: rviz/MarkerArray
+              Enabled: true
+              Marker Topic: /explore/frontiers
+              Name: explore_lite_frontiers
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: true
+          Enabled: false
+          Name: explore_lite
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 0.699999988079071
+              Class: octomap_rviz_plugin/OccupancyMap
+              Color Scheme: map
+              Draw Behind: false
+              Enabled: false
+              Max. Octree Depth: 16
+              Name: OccupancyMap
+              Octomap Binary Topic: /turtlebot_exploration_3d/octomap_3d
+              Unreliable: false
+              Use Timestamp: false
+              Value: false
+            - Class: octomap_rviz_plugin/OccupancyGrid
+              Enabled: false
+              Max. Height Display: 2
+              Max. Octree Depth: 16
+              Min. Height Display: -3.4028234663852886e+38
+              Name: real_free
+              Octomap Topic: /kinect_exploration_3d_node/octomap_3d
+              Queue Size: 5
+              Value: false
+              Voxel Alpha: 0.5
+              Voxel Coloring: Z-Axis
+              Voxel Rendering: Free Voxels
+            - Class: octomap_rviz_plugin/OccupancyGrid
+              Enabled: true
+              Max. Height Display: 3.4028234663852886e+38
+              Max. Octree Depth: 16
+              Min. Height Display: -3.4028234663852886e+38
+              Name: real_occupy
+              Octomap Topic: /kinect_exploration_3d_node/octomap_3d
+              Queue Size: 5
+              Value: true
+              Voxel Alpha: 1
+              Voxel Coloring: Z-Axis
+              Voxel Rendering: Occupied Voxels
+            - Class: rviz/Marker
+              Enabled: true
+              Marker Topic: /Goal_Marker
+              Name: Goal_Marker
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: true
+            - Class: rviz/Marker
+              Enabled: true
+              Marker Topic: /Frontier_points
+              Name: Frontier_points
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: true
+            - Class: rviz/MarkerArray
+              Enabled: true
+              Marker Topic: /Candidate_MIs
+              Name: Candidate_MIs
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: true
+          Enabled: false
+          Name: kinect_explore_3d
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 0.699999988079071
+              Class: octomap_rviz_plugin/OccupancyMap
+              Color Scheme: map
+              Draw Behind: false
+              Enabled: true
+              Max. Octree Depth: 16
+              Name: OccupancyMap
+              Octomap Binary Topic: /turtlebot_exploration_3d/octomap_3d
+              Unreliable: false
+              Use Timestamp: false
+              Value: true
+            - Class: octomap_rviz_plugin/OccupancyGrid
+              Enabled: false
+              Max. Height Display: 2
+              Max. Octree Depth: 16
+              Min. Height Display: -3.4028234663852886e+38
+              Name: real_free
+              Octomap Topic: /lidar_exploration_3d_node/octomap_3d
+              Queue Size: 5
+              Value: false
+              Voxel Alpha: 0.5
+              Voxel Coloring: Z-Axis
+              Voxel Rendering: Free Voxels
+            - Class: octomap_rviz_plugin/OccupancyGrid
+              Enabled: true
+              Max. Height Display: 3.4028234663852886e+38
+              Max. Octree Depth: 16
+              Min. Height Display: -3.4028234663852886e+38
+              Name: real_occupy
+              Octomap Topic: /lidar_exploration_3d_node/octomap_3d
+              Queue Size: 5
+              Value: true
+              Voxel Alpha: 1
+              Voxel Coloring: Z-Axis
+              Voxel Rendering: Occupied Voxels
+            - Class: rviz/Marker
+              Enabled: true
+              Marker Topic: /Goal_Marker
+              Name: Goal_Marker
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: true
+            - Class: rviz/Marker
+              Enabled: true
+              Marker Topic: /Frontier_points
+              Name: Frontier_points
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: true
+            - Class: rviz/MarkerArray
+              Enabled: true
+              Marker Topic: /Candidate_MIs
+              Name: Candidate_MIs
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: true
+          Enabled: false
+          Name: lidar_explore_3d
+      Enabled: true
+      Name: explore_old
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Group
+          Displays:
+            - Class: rviz/Marker
+              Enabled: true
+              Marker Topic: /test_raycast/hits
+              Name: Marker
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: true
+          Enabled: false
+          Name: test_raycast
+        - Class: rviz/Group
+          Displays:
+            - Class: octomap_rviz_plugin/OccupancyGrid
+              Enabled: false
+              Max. Height Display: 3.4028234663852886e+38
+              Max. Octree Depth: 16
+              Min. Height Display: -3.4028234663852886e+38
+              Name: free
+              Octomap Topic: /test_frontier/octomap_3d
+              Queue Size: 1
+              Value: false
+              Voxel Alpha: 1
+              Voxel Coloring: Z-Axis
+              Voxel Rendering: Free Voxels
+            - Class: octomap_rviz_plugin/OccupancyGrid
+              Enabled: true
+              Max. Height Display: 3.4028234663852886e+38
+              Max. Octree Depth: 16
+              Min. Height Display: -3.4028234663852886e+38
+              Name: Occu
+              Octomap Topic: /test_frontier/octomap_3d
+              Queue Size: 5
+              Value: true
+              Voxel Alpha: 1
+              Voxel Coloring: Z-Axis
+              Voxel Rendering: Occupied Voxels
+            - Class: rviz/Marker
+              Enabled: true
+              Marker Topic: /Frontier_points
+              Name: Marker
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: true
+          Enabled: false
+          Name: test_frontier
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 204; 0; 0
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: PointCloud2
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 6
+              Size (m): 0.009999999776482582
+              Style: Points
+              Topic: /test_ring/ring_pc
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+          Enabled: false
+          Name: test_ring
+      Enabled: true
+      Name: test
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /octomap_manager_node/octomap_occupied
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Alpha: 1
+      Axes Length: 2
+      Axes Radius: 0.20000000298023224
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.30000001192092896
+      Head Radius: 0.10000000149011612
+      Name: Pose
+      Shaft Length: 1
+      Shaft Radius: 0.05000000074505806
+      Shape: Axes
+      Topic: /move_base_simple/goal
+      Unreliable: false
+      Value: true
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Group
+          Displays:
+            - Class: octomap_rviz_plugin/OccupancyGrid
+              Enabled: true
+              Max. Height Display: 3.4028234663852886e+38
+              Max. Octree Depth: 16
+              Min. Height Display: -3.4028234663852886e+38
+              Name: octomap
+              Octomap Topic: /frontier_exploration_node/octomap_full
+              Queue Size: 5
+              Value: true
+              Voxel Alpha: 0.20000000298023224
+              Voxel Coloring: Z-Axis
+              Voxel Rendering: Occupied Voxels
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 255; 255
+              Color Transformer: Intensity
+              Decay Time: 0
+              Enabled: true
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: frontiers
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.15000000596046448
+              Style: Boxes
+              Topic: /frontier_exploration_node/frontiers
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: true
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 0; 0; 0
+              Color Transformer: Intensity
+              Decay Time: 0
+              Enabled: true
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: frontiers_center
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 13
+              Size (m): 0.800000011920929
+              Style: Spheres
+              Topic: /frontier_exploration_node/frontiers_center
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: true
+            - Class: rviz/MarkerArray
+              Enabled: false
+              Marker Topic: /base_exploration_node/octomap_free
+              Name: octomap_free
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: false
+            - Class: octomap_rviz_plugin/OccupancyGrid
+              Enabled: false
+              Max. Height Display: 3.4028234663852886e+38
+              Max. Octree Depth: 16
+              Min. Height Display: -3.4028234663852886e+38
+              Name: octomap_free
+              Octomap Topic: /base_exploration_node/octomap_full
+              Queue Size: 5
+              Value: false
+              Voxel Alpha: 1
+              Voxel Coloring: Z-Axis
+              Voxel Rendering: Free Voxels
+            - Class: rviz/MarkerArray
+              Enabled: false
+              Marker Topic: /base_exploration_node/octomap_occupied
+              Name: octomap_occupied
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: false
+          Enabled: false
+          Name: frontier_explorer
+        - Class: rviz/Group
+          Displays:
+            - Class: octomap_rviz_plugin/OccupancyGrid
+              Enabled: true
+              Max. Height Display: 3.4028234663852886e+38
+              Max. Octree Depth: 16
+              Min. Height Display: -3.4028234663852886e+38
+              Name: octomap
+              Octomap Topic: /frontier_sample_explorer_node/octomap_full
+              Queue Size: 5
+              Value: true
+              Voxel Alpha: 0.20000000298023224
+              Voxel Coloring: Z-Axis
+              Voxel Rendering: Occupied Voxels
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 255; 255
+              Color Transformer: Intensity
+              Decay Time: 0
+              Enabled: true
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: frontiers
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.15000000596046448
+              Style: Boxes
+              Topic: /frontier_sample_explorer_node/frontiers
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: true
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 0; 0; 0
+              Color Transformer: Intensity
+              Decay Time: 0
+              Enabled: true
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: frontiers_center
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 13
+              Size (m): 0.800000011920929
+              Style: Spheres
+              Topic: /frontier_sample_explorer_node/frontiers_center
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: true
+            - Class: rviz/MarkerArray
+              Enabled: false
+              Marker Topic: /frontier_sample_explorer_node/octomap_free
+              Name: octomap_free
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: false
+            - Class: octomap_rviz_plugin/OccupancyGrid
+              Enabled: false
+              Max. Height Display: 3.4028234663852886e+38
+              Max. Octree Depth: 16
+              Min. Height Display: -3.4028234663852886e+38
+              Name: octomap_free
+              Octomap Topic: /frontier_sample_explorer_node/octomap_full
+              Queue Size: 5
+              Value: false
+              Voxel Alpha: 1
+              Voxel Coloring: Z-Axis
+              Voxel Rendering: Free Voxels
+            - Class: rviz/MarkerArray
+              Enabled: false
+              Marker Topic: /frontier_sample_explorer_node/octomap_occupied
+              Name: octomap_occupied
+              Namespaces:
+                {}
+              Queue Size: 100
+              Value: false
+            - Class: rviz/MarkerArray
+              Enabled: true
+              Marker Topic: /frontier_sample_explorer_node/candidate
+              Name: candidate
+              Namespaces:
+                candidates: true
+                frontier_coverage: true
+              Queue Size: 1
+              Value: true
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 252; 233; 79
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Min Color: 0; 0; 0
+              Name: candidate
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 30
+              Size (m): 0.009999999776482582
+              Style: Points
+              Topic: /frontier_sample_explorer_node/candidate_pcl
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+          Enabled: true
+          Name: fs_explorer
+      Enabled: true
+      Name: exploration
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Default Light: true
+    Fixed Frame: world
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+      Hide Inactive Objects: true
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+    - Class: rviz/FocusCamera
+    - Class: rviz/Measure
+    - Class: rviz/SetInitialPose
+      Theta std deviation: 0.2617993950843811
+      Topic: /initialpose
+      X std deviation: 0.5
+      Y std deviation: 0.5
+    - Class: rviz/SetGoal
+      Topic: /move_base_simple/goal
+    - Class: rviz/PublishPoint
+      Single click: true
+      Topic: /clicked_point
+  Value: true
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 38.59981918334961
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.05999999865889549
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: 19.614452362060547
+        Y: 9.24980354309082
+        Z: -0.1715487688779831
+      Focal Shape Fixed Size: false
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.009999999776482582
+      Pitch: 1.5697963237762451
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz)
+      Yaw: 2.073575258255005
+    Saved: ~
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 1386
+  Hide Left Dock: false
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd0000000400000000000001ca000004ccfc020000000bfb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005c00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003d000004cc000000c900fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000001600640065007000740068005f0069006d006100670065000000028f000001110000001600fffffffb0000000a0049006d00610067006501000002350000016b0000000000000000fb00000012007200670062005f0049006d00610067006500000002d9000000c70000001600ffffff0000000100000103000004ccfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073010000003d000004cc000000a400fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000009bd0000003efc0100000002fb0000000800540069006d00650100000000000009bd000002eb00fffffffb0000000800540069006d00650100000000000004500000000000000000000006e4000004cc00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Selection:
+    collapsed: false
+  Time:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: false
+  Width: 2493
+  X: 67
+  Y: 27
+  depth_image:
+    collapsed: false
+  rgb_Image:
+    collapsed: false

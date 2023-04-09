@@ -1,0 +1,18 @@
+<launch>
+    <arg name="model_pose" default="-x 0 -y 0 -z 0.15" />
+    <arg name="model" default="$(find mm_description)/urdf/ls/ls.xacro" />
+
+    <param name="/robot_description" command="$(find xacro)/xacro --inorder '$(arg model)' " />
+
+    <node name="ls_spawn_model" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model land_shaker $(arg model_pose)" />
+
+    <!-- 启动关节位置控制器 和 底盘速度控制器 -->
+    <include file="$(find mm_gazebo)/launch/ls/ls_controller.launch" />
+
+    <!-- 订阅joint_states 发布robot state到tf -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+        <!-- <param name="tf_prefix" value="$(arg group_ns)"/> -->
+        <param name="publish_frequency" type="double" value="50.0" />
+    </node>
+
+</launch>

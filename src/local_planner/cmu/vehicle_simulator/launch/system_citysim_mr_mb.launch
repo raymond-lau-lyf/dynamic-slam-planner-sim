@@ -1,0 +1,46 @@
+<launch>
+
+  <arg name="world_name" default="simple_city_erboutput"/>
+  <arg name="sensorFrame" default="/sensor"/>
+  <arg name="vehicleHeight" default="0.75"/>
+  <arg name="cameraOffsetZ" default="0"/>
+  <arg name="vehicleX" default="0"/>
+  <arg name="vehicleY" default="0"/>
+  <!-- <arg name="terrainZ" default="5.025"/> -->
+  <arg name="vehicleYaw" default="0"/>
+  <arg name="gazebo_gui" default="true"/>
+  <arg name="checkTerrainConn" default="true"/>
+  <arg name="teleop" default="false"/>
+  <arg name="cmd_vel_topic" default="/mr2000_velocity_controller/cmd_vel"/>
+  <!-- <arg name="model_pose" default="-x 0 -y 0 -z 5.3 -R 0 -P 0 -Y 0" /> -->
+  <!-- <arg name="model_pose" default="-x 50.5 -y 45 -z 5.3 -R 0 -P 0 -Y 0" /> --> 
+  <!-- <arg name="model_pose" default="-x 33 -y -1 -z 0 -R 0 -P 0 -Y 0" /> -->
+  <arg name="model_pose" default="-x -15 -y 44.8 -z 5.3 -R 0 -P 0 -Y 0" />
+  <!-- <arg name="model_pose" default="-x 0 -y 0 -z 0 -R 0 -P 0 -Y 0" /> -->
+
+
+
+
+  <include file="$(find mm_gazebo)/launch/ls/mr2000_bringup.launch">
+    <arg name="world_name" value="$(find vehicle_simulator)/world/$(arg world_name).world"/>
+    <arg name="gui" value="$(arg gazebo_gui)"/>
+    <arg name="rviz" value="true"/>
+    <arg name="teleop_base" value="$(arg teleop)"/>
+    <arg name="model_pose" value="$(arg model_pose)"/>
+    <arg name="ground_truth" value="false"/>
+    
+  </include> 
+
+  <include file="$(find mm_navigation)/launch/ls_nav_demo.launch">
+    <arg name="rviz" value="false"/>
+    <arg name="ground_truth" default="true"/>
+  </include> 
+
+
+
+
+
+
+
+
+</launch>

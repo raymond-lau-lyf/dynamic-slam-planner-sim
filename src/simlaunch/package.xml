@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package>
+  <name>sim_launch</name>
+  <version>0.0.0</version>
+  <description>The sim_launch package</description>
+
+  <maintainer email="931536170@qq.com">Cui Chen</maintainer>
+
+  <license>BSD</license>
+
+  <author email="931536170@qq.com">Cui Chen</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+  </export>
+</package>

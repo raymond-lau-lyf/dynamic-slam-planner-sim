@@ -1,0 +1,17 @@
+<launch>
+
+    <include file="$(find wbot_slam_demo)/launch/fwd_2d_gmapping_demo.launch">
+        <arg name="rviz" default="false"/>
+    </include>
+
+    <arg name="use_sim" default="true"/>
+    <!-- 运行move_base节点 -->
+    <include file="$(find wbot_navigation)/launch/fwd_teb_move_base.launch">
+        <arg name="vel_topic" value="/fwd_velocity_controller/cmd_vel"/>
+        <arg name="odom_topic" value="/fwd_odom_gt"/>
+    </include>
+
+    <!-- 运行rviz -->
+    <node pkg="rviz" type="rviz" name="rviz_move_base" args="-d $(find wbot_navigation)/rviz/nav.rviz"/>
+
+</launch>

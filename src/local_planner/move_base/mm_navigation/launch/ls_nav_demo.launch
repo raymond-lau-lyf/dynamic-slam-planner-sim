@@ -1,0 +1,51 @@
+<launch>
+
+    <arg name="rviz" default="true" />
+    <arg name="planner" default="ls_teb_3d" /> <!-- twd_teb, ls_teb_3d -->
+    <arg name="amcl" default="true" />
+    <arg name="mapping" default="true" />
+    <arg name="mapping_algorithm" default="octomap" /> <!-- octomap, may_by_tf -->
+    <arg name="ground_truth" default="true"/>
+    <arg name="vel_topic" default="/cmd_vel"/>
+
+
+    <group if="$(eval arg('planner') == 'ls_teb_3d')">
+        <arg name="fake_map" default="init.yaml" />
+        <node name="map_server" pkg="map_server" type="map_server" args="$(find mm_navigation)/maps/$(arg fake_map)" />
+        # 3d mapping
+        <!-- <group if="$(arg mapping)">
+            <group if="$(eval arg('mapping_algorithm') == 'octomap')">
+                <include file="$(find map_tools)/launch/octomap_server.launch" />
+            </group>
+            <group if="$(eval arg('mapping_algorithm') == 'may_by_tf')">
+                <include file="$(find map_tools)/launch/map_by_tf.launch" />
+            </group>
+        </group> -->
+
+        # 虚拟定位，设置一个/odom与/map之间的静态坐标变换
+    </group>
+
+
+    <!-- 运行move_base节点 -->
+    <group if="$(arg ground_truth)">
+        <include file="$(find mm_navigation)/launch/ls_teb_move_base.launch">
+            <arg name="vel_topic" value="$(arg vel_topic)" />
+            <arg name="odom_topic" value="/Odometry" />
+            <arg name="pc_topic" value="/sensor_scan" />
+            <arg name="prefix" value="$(arg planner)" />
+        </include>
+    </group>
+    <group unless="$(arg ground_truth)">
+        <include file="$(find mm_navigation)/launch/ls_teb_move_base.launch">
+            <arg name="vel_topic" value="$(arg vel_topic)" />
+            <arg name="odom_topic" value="/Odometry" />
+            <arg name="pc_topic" value="/sensor_scan" />
+            <arg name="prefix" value="$(arg planner)" />
+        </include>
+    </group>
+
+    <!-- 运行rviz -->
+    <group if="$(arg rviz)">
+        <node pkg="rviz" type="rviz" name="rviz_nav" args="-d $(find mm_navigation)/rviz/nav.rviz" />
+    </group>
+</launch>

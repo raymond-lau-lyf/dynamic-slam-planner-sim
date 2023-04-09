@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="IMU">
+    <xacro:property name="imu_size" value="0.02"/>
+
+    <xacro:macro name="Macro_IMUROS" params="name parent frame *origin topic rate">
+        <joint name="${name}_mount_joint" type="fixed">
+            <axis xyz="0 1 0"/>
+            <xacro:insert_block name="origin"/>
+            <parent link="${parent}"/>
+            <child link="${frame}"/>
+        </joint>
+
+        <!-- IMU -->
+        <link name="${frame}">
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="${imu_size} ${imu_size} ${imu_size}"/>
+                </geometry>
+            </collision>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="${imu_size} ${imu_size} ${imu_size}"/>
+                </geometry>
+            </visual>
+
+            <inertial>
+                <mass value="1e-5"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+            </inertial>
+        </link>
+
+        <gazebo reference="${frame}">
+            <sensor type="imu" name="${name}">
+                <always_on>true</always_on>
+                <update_rate>${rate}</update_rate>
+                <visualize>true</visualize>
+                <topic>${topic}</topic>
+                <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+                  <topicName>${topic}</topicName>
+                  <bodyName>${frame}</bodyName>
+                  <updateRateHZ>${rate}</updateRateHZ>
+                  <gaussianNoise>0.0</gaussianNoise>
+                  <xyzOffset>0 0 0</xyzOffset>
+                  <rpyOffset>0 0 0</rpyOffset>
+                  <frameName>imu_link</frameName>
+                </plugin>
+                <pose>0 0 0 0 0 0</pose>
+            </sensor>
+            <material>Gazebo/Orange</material>
+        </gazebo>
+    </xacro:macro>
+</robot>

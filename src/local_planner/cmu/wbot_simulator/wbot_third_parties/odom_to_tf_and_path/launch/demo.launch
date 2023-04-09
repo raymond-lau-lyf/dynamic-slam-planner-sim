@@ -1,0 +1,12 @@
+<launch>
+    <node pkg="odom2tfAndPath" type="odom2tfAndPath" name="odom_gt_tf" output="screen">
+      <param name="odom_topic" value="/odom_gt"/>
+      <param name="parent_frame" value="/world"/>
+      <param name="child_frame" value="/large_base_link"/>
+      <param name="path_enable" value="true"/>
+      <param name="path_topic" value="/path_gt"/>
+      <param name="path_points_topic" value="/path_points_gt" />
+      <param name="path_dist_threshold" value="0.1"/>
+      <param name="path_angle_threshold" value="5"/>
+    </node>
+</launch>

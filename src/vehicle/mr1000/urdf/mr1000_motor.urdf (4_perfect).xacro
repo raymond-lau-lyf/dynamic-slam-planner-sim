@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mr1000">
+
+  <xacro:property name="wheel_length" value="0.1143" />
+  <xacro:property name="wheel_radius" value="0.1651" /> 
+  <xacro:property name="wheelbase" value="0.4885" /> <!-- distance betwee front wheel and rear wheel -->
+  <xacro:property name="track" value="0.5347" />  <!-- separation between left wheel and right wheel: 0.1143 + 0.4204 = 0.5347-->
+  <xacro:property name="wheel_vertical_offset" value="0.040" />
+  <xacro:property name="base_x_size" value="0.866" />
+  <xacro:property name="base_y_size" value="0.400" />
+  <xacro:property name="base_z_size" value="0.2165" />
+  <xacro:property name="M_PI" value="3.14159"/>
+
+  <xacro:include filename="$(find mr1000)/urdf/wheel.urdf.xacro" />
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.0083361 0.00033765 0.10648" rpy="0 0 0" />
+      <mass value="13.336" />
+      <inertia
+        ixx="0.12049"
+        ixy="0.0"
+        ixz="-0.001006"
+        iyy="0.0"
+        iyz="0.0"
+        izz="0.41342" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mr1000/meshes/base_linkm.STL" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${base_x_size} ${base_y_size} ${base_z_size}"/>
+      </geometry>
+    </collision>
+    <!-- <collision>
+      <origin xyz="0 0 ${base_z_size*3/4-0.01}" rpy="0 0 0" />
+      <geometry>
+        <box size="${base_x_size*4/5} ${base_y_size} ${base_z_size/2-0.02}"/>
+      </geometry>
+    </collision> -->
+  </link>
+  <gazebo reference="base_link">                   
+    <material>Gazebo/Yellow</material>
+  </gazebo>
+
+  <link name="base_footprint"/>
+
+  <joint name="base_footprint_joint" type="fixed">
+    <origin xyz="0 0 ${wheel_vertical_offset - wheel_radius}" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="base_footprint" />
+  </joint>
+
+  <xacro:mr1000_wheel wheel_prefix="front_left">
+    <origin xyz="${wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:mr1000_wheel>
+  <xacro:mr1000_wheel wheel_prefix="front_right">
+    <origin xyz="${wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:mr1000_wheel>
+  <xacro:mr1000_wheel wheel_prefix="rear_left">
+    <origin xyz="${-wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:mr1000_wheel>
+  <xacro:mr1000_wheel wheel_prefix="rear_right">
+    <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:mr1000_wheel>
+  
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <legacyModeNS>true</legacyModeNS>
+    </plugin>
+  </gazebo>
+
+</robot>

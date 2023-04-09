@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package>
+  <name>mm_teleop</name>
+  <version>0.0.0</version>
+  <description>The mm_teleop package</description>
+
+  <maintainer email="wyl410922@qq.com">Wang yanliang</maintainer>
+
+  <license>BSD</license>
+
+  <author email="wyl410922@qq.com">Wang yanliang</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+  </export>
+</package>

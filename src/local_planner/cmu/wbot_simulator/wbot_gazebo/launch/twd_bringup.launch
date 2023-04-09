@@ -1,0 +1,55 @@
+<launch>
+  <arg name="world_name" default="$(find wbot_gazebo)/worlds/demo.world" />
+  <arg name="model_pose" default="-x 0 -y 0 -z 0.5 -R 0 -P 0 -Y 0" />
+  <arg name="gui" default="true"/>
+  <arg name="rviz" default="true"/>
+  <arg name="teleop" default="true"/>
+
+  <env name="GAZEBO_MODEL_PATH" value="$(find wbot_gazebo)/worlds/small_maze:$(optenv GAZEBO_MODEL_PATH)" />
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_name)" />
+    <arg name="paused" value="false" />
+    <arg name="use_sim_time" value="true" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="headless" value="false" />
+    <arg name="debug" value="false" />
+    <arg name="verbose" value="false" />
+  </include>
+
+  # Load robot description and spawn robot model
+  <param name="robot_description" command="$(find xacro)/xacro  '$(find wbot_description)/urdf/twd/twd.xacro'" />
+  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model twd $(arg model_pose)" />
+
+  # publish robot state to tf
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="30.0" />
+  </node>
+
+  # Load controller configuration and Start spawn controllers
+  <include file="$(find wbot_control)/launch/twd_control.launch" />
+
+  # teleoperation by keyboard
+  <group if="$(arg teleop)">
+    <node pkg="wbot_teleop" type="wbot_teleop.py" name="teleop_vel" launch-prefix="gnome-terminal -x" required="false">
+      <param name="topic_name" value="/twd_velocity_controller/cmd_vel" />
+    </node>
+  </group>
+
+  # rviz display
+  <group if="$(arg rviz)">
+    <node pkg="rviz" type="rviz" name="rviz_twd" required="true" args="-d $(find wbot_gazebo)/rviz/twd_demo.rviz" />
+  </group>
+
+  # odom ground truth to tf and path
+  <node pkg="odom_to_tf_and_path" type="odom2tfAndPath" name="odom_gt_tf" output="screen">
+    <param name="odom_topic" value="/twd_odom_gt" />
+    <param name="parent_frame" value="/world" />
+    <param name="child_frame" value="/base_link" />
+    <param name="path_enable" value="true" />
+    <param name="path_topic" value="/twd_path_gt" />
+    <param name="path_points_topic" value="/twd_path_points_gt" />
+    <param name="path_dist_threshold" value="0.1" />
+    <param name="path_angle_threshold" value="2" />
+  </node>
+
+</launch>

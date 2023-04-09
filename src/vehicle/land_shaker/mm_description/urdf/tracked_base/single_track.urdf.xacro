@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro"  name="single_track">
+
+<xacro:macro name="single_track" params="prefix offset_y">
+    <link name="${prefix}_body">
+        <inertial>
+            <mass value="1"/>
+            <inertia ixx="0.0250083333333" ixy="0" ixz="0" iyy="0.0241666666667" iyz="0" izz="0.0425083333333"/>
+        </inertial>
+        <visual>
+            <geometry>
+                <!-- <box size="0.4 0.151 0.15"/> -->
+                <mesh filename="package://mm_description/meshes/vehicle/track_entity_meter.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.4 0.151 0.15"/>
+            </geometry>
+        </collision>
+    </link>
+    <gazebo reference="${prefix}_body">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    <gazebo reference="${prefix}_body_fixed_idler_link_1">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    <gazebo reference="${prefix}_body_fixed_idler_link_2">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    <gazebo reference="${prefix}_body_fixed_idler_link_3">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+    <gazebo reference="${prefix}_sprocket">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
+    <!-- body cylinder: back-->
+    <link name="${prefix}_body_fixed_idler_link_1">
+        <inertial>
+            <mass value="0.2"/>
+            <inertia ixx="0.004655" ixy="0" ixz="0" iyy="0.00064" iyz="0" izz="0.004655"/>
+        </inertial>
+        <visual>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.15" radius="0.08"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.15" radius="0.08"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="${prefix}_body_fixed_idler_joint_1" type="fixed">
+        <origin rpy="0 0 0" xyz="-0.36 0 0"/>
+        <parent link="${prefix}_body"/>
+        <child link="${prefix}_body_fixed_idler_link_1"/>
+    </joint>
+
+    <!-- body cylinder: front-->
+    <link name="${prefix}_body_fixed_idler_link_2">
+        <inertial>
+            <mass value="0.2"/>
+            <inertia ixx="0.004655" ixy="0" ixz="0" iyy="0.00064" iyz="0" izz="0.004655"/>
+        </inertial>
+        <visual>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.15" radius="0.07"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.15" radius="0.07"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="${prefix}_body_fixed_idler_joint_2" type="fixed">
+        <origin rpy="0 0 0" xyz="0.445 0 0.102"/>
+        <parent link="${prefix}_body"/>
+        <child link="${prefix}_body_fixed_idler_link_2"/>
+    </joint>
+
+    <!-- body cylinder: top-->
+    <link name="${prefix}_body_fixed_idler_link_3">
+        <inertial>
+            <mass value="0.2"/>
+            <inertia ixx="0.004655" ixy="0" ixz="0" iyy="0.00064" iyz="0" izz="0.004655"/>
+        </inertial>
+        <visual>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.15" radius="0.062"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.15" radius="0.062"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="${prefix}_body_fixed_idler_joint_3" type="fixed">
+        <origin rpy="0 0 0" xyz="0.00953 0 0.16618"/>
+        <parent link="${prefix}_body"/>
+        <child link="${prefix}_body_fixed_idler_link_3"/>
+    </joint>
+
+    <!-- sprocket driving the track : cylinder -->
+    <link name="${prefix}_sprocket">
+        <inertial>
+            <mass value="0.2"/>
+            <!-- assuming axis of cylinder is y, not z -->
+            <inertia ixx="0.004655" ixy="0" ixz="0" iyy="0.00064" iyz="0" izz="0.004655"/>
+        </inertial>
+        <visual>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.15" radius="0.064"/>
+            </geometry>
+        </visual>
+        <!-- <visual>
+            <geometry>
+                <box size="0.01 0.15 0.14"/>
+            </geometry>
+        </visual>
+        <visual>
+            <geometry>
+                <box size="0.14 0.15 0.01"/>
+            </geometry>
+        </visual> -->
+        <collision>
+            <origin rpy="1.57079632679 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder length="0.1" radius="0.064"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="${prefix}_sprocket_axle" type="fixed">
+        <origin rpy="0 0 0" xyz="0.36 ${offset_y*0.001} -0.018"/>
+        <parent link="${prefix}_body"/>
+        <child link="${prefix}_sprocket"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <!-- <transmission name="${prefix}_sprocket_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${prefix}_sprocket_axle">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${prefix}_sprocket_actuator">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>  -->
+
+
+
+</xacro:macro>
+</robot>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="mr1000">
+
+  <xacro:arg name="robot_namespace" default="/" />
+  <xacro:arg name="gpu" default="false"/>
+  <xacro:property name="gpu" value="$(arg gpu)" />
+
+  <!-- Wheel Properties -->
+  <xacro:property name="wheel_length" value="0.1143" />
+  <xacro:property name="wheel_radius" value="0.1651" /> 
+
+  <!-- Wheel Mounting Positions -->
+  <xacro:property name="wheelbase" value="0.4885" /> <!-- distance betwee front wheel and rear wheel -->
+  <xacro:property name="track" value="0.5347" />  <!-- separation between left wheel and right wheel: 0.1143 + 0.4204 = 0.5347-->
+  <xacro:property name="wheel_vertical_offset" value="0.04" />
+
+  <!-- Base Size -->
+  <xacro:property name="base_x_size" value="0.866" />
+  <xacro:property name="base_y_size" value="0.400" />
+  <xacro:property name="base_z_size" value="0.2165" />
+  <xacro:property name="M_PI" value="3.14159"/>
+
+  <!-- Lidar Config -->
+  <xacro:property name="LiDARName" value="rslidar80" />
+  <xacro:property name="topicName" value="rslidar80_points" />
+  <xacro:property name="frameName" value="rslidar80_frame" />
+  <xacro:property name="min_range" value="0.9" />
+  <xacro:property name="max_range" value="130.0" />
+  <xacro:property name="samples" value="440"/>
+  <xacro:property name="hz" value="10" />
+  <xacro:property name="gaussianNoise" value="0.008" />
+
+  <!-- Included URDF/XACRO Files -->
+  <xacro:include filename="$(find mr1000)/urdf/multi_wheel.urdf.xacro" />
+  <xacro:include filename="$(find mr1000)/urdf/camera.xacro" />
+  <!-- <xacro:include filename="$(find mr1000)/urdf/VLP-16.urdf.xacro"/> -->
+  <xacro:include filename="$(find velodyne_description)/urdf/RS-Ruby80.urdf.xacro"/>
+  <!-- <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/> -->
+  <!-- Base link is the center of the robot's base -->
+  <link name="$(arg robot_namespace)_base_link">
+    <inertial>
+      <!-- husky 
+      <mass value="46.034" />
+      <origin xyz="-0.00065 -0.085 0.062" />
+      <inertia ixx="0.6022" ixy="-0.02364" ixz="-0.1197" iyy="1.7386" iyz="-0.001544" izz="2.0296" /> 
+      -->
+      <!--  turtlebot
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" /> 
+      -->
+      <!-- mr1000 -->
+      <origin  xyz="0.0083361 0.00033765 0.10648" rpy="0 0 0" />
+      <mass value="13.336" />
+      <inertia ixx="0.12049" ixy="5.9344E-06" ixz="-0.001006" iyy="0.32804" iyz="-7.8809E-07" izz="0.41342" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mr1000/meshes/base_linkm3.STL" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${base_x_size} ${base_y_size} ${base_z_size}"/>
+      </geometry>
+    </collision>
+    <!-- <collision>
+      <origin xyz="0 0 ${base_z_size*3/4-0.01}" rpy="0 0 0" />
+      <geometry>
+        <box size="${base_x_size*4/5} ${base_y_size} ${base_z_size/2-0.02}"/>
+      </geometry>
+    </collision> -->
+  </link>
+  <gazebo reference="$(arg robot_namespace)_base_link">                   
+    <material>Gazebo/Yellow</material>
+  </gazebo>
+
+  <!-- Base footprint is on the ground under the robot -->
+  <link name="$(arg robot_namespace)_base_footprint"/>
+  <joint name="$(arg robot_namespace)_base_footprint_joint" type="fixed">
+    <origin xyz="0 0 ${wheel_vertical_offset - wheel_radius}" rpy="0 0 0" />
+    <parent link="$(arg robot_namespace)_base_link" />
+    <child link="$(arg robot_namespace)_base_footprint" />
+  </joint>
+
+  <!-- Wheel links generated from macros -->
+  <xacro:mr1000_wheel wheel_prefix="$(arg robot_namespace)_front_left" parent_link="$(arg robot_namespace)_base_link">
+    <origin xyz="${wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:mr1000_wheel>
+  <xacro:mr1000_wheel wheel_prefix="$(arg robot_namespace)_front_right" parent_link="$(arg robot_namespace)_base_link">
+    <origin xyz="${wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:mr1000_wheel>
+  <xacro:mr1000_wheel wheel_prefix="$(arg robot_namespace)_rear_left" parent_link="$(arg robot_namespace)_base_link">
+    <origin xyz="${-wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:mr1000_wheel>
+  <xacro:mr1000_wheel wheel_prefix="$(arg robot_namespace)_rear_right" parent_link="$(arg robot_namespace)_base_link">
+    <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset}" rpy="0 0 0" />
+  </xacro:mr1000_wheel>
+
+  <!-- Gazebo differentiate controller -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
+      <legacyModeNS>true</legacyModeNS>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
+
+  <!-- IMU Link is the standard mounting position for the UM6 IMU.-->
+  <link name="$(arg robot_namespace)_imu_link">
+    <inertial>
+      <origin xyz="0.0083361 0.00033765 0.10648" rpy="0 0 0" />
+      <mass value="0.336" />
+      <inertia  ixx="0.12049" ixy="0.0" ixz="0.0" iyy="0.01788" iyz="0.0" izz="0.41342" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.05 0.02"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.05 0.05 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="$(arg robot_namespace)_imu_joint" type="fixed">
+    <!-- <origin xyz="$(optenv HUSKY_IMU_XYZ 0.19 0 0.149)" rpy="$(optenv HUSKY_IMU_RPY 0 -1.5708 3.1416)" /> -->
+    <!-- http://wiki.ros.org/husky_bringup/Tutorials/Customize%20Husky%20Configuration -->
+    <origin xyz="0 0 ${base_z_size}" rpy="0 ${-M_PI/2} ${M_PI}" />
+    <parent link="$(arg robot_namespace)_base_link" />
+    <child link="$(arg robot_namespace)_imu_link" />
+  </joint>
+  <gazebo reference="$(arg robot_namespace)_imu_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <!-- Gazebo imu controller -->
+  <gazebo>
+    <plugin name="imu_controller" filename="libhector_gazebo_ros_imu.so">
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
+      <updateRate>50.0</updateRate>
+      <bodyName>$(arg robot_namespace)_base_link</bodyName>
+      <topicName>imu/data</topicName>
+      <accelDrift>0.005 0.005 0.005</accelDrift>
+      <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
+      <rateDrift>0.005 0.005 0.005 </rateDrift>
+      <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
+      <headingDrift>0.005</headingDrift>
+      <headingGaussianNoise>0.005</headingGaussianNoise>
+    </plugin>
+  </gazebo>
+
+  <!-- VLP-16 -->
+  <!-- <VLP-16 parent="base_link" name="velodyne" topic="/velodyne_points" hz="10" samples="440" gpu="${gpu}" >
+    <origin xyz="0 0 ${base_z_size + 0.38}" rpy="0 0 0" />
+  </VLP-16> -->
+
+
+  <!-- rslidar-80 -->
+  <!---->
+  <!-- <xacro:laserModel parent="base_link" name="${LiDARName}" topic="${topicName}" samples="${samples}" 
+                      noise="${gaussianNoise}" hz="${hz}" frame="${frameName}" >
+    <origin xyz="0 0 ${0.5425 + 0.07425}" rpy="0 0 0" />
+  </xacro:laserModel> -->
+
+    <xacro:RS-Ruby80
+          parent="$(arg robot_namespace)_base_link"
+          name="Ruby80"
+          topic="Ruby80"
+          samples="180"
+          noise="0.008"
+          frame="$(arg robot_namespace)_Ruby80"
+          gpu="false"
+          ns="$(arg robot_namespace)">
+          >
+    <origin xyz="0 0 0.61675" rpy="0 0 0" />
+  </xacro:RS-Ruby80>
+<!-- 
+  <gazebo>
+    <plugin name="gazebo_ros_lidar_non_uniform" filename="libgazebo_ros_lidar_non_uniform.so">
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
+      <topicName>${topicName}</topicName>
+      <frameName>${frameName}</frameName>
+      <min_range>${min_range}</min_range>
+      <max_range>${max_range}</max_range>
+      <gaussianNoise>${gaussianNoise}</gaussianNoise>
+    </plugin>
+  </gazebo>  -->
+
+  <!-- livox -->
+  
+  <!-- <xacro:include filename="$(find livox_simulation)/urdf/livox_mid.urdf.xacro"/>
+  <xacro:Livox_Mid40 name="livox"/>
+
+  <joint name="livox_base_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="livox_base"/>
+    <origin rpy="0 0 0" xyz="0.0 0.0 ${base_z_size + 0.2}"/>
+  </joint>  -->
+
+
+
+  <!-- Gazebo gps controller -->
+  <gazebo>
+    <plugin name="gps_controller" filename="libhector_gazebo_ros_gps.so">
+      <robotNamespace>$(arg robot_namespace)</robotNamespace>
+      <updateRate>40</updateRate>
+      <bodyName>$(arg robot_namespace)_base_link</bodyName>
+      <frameId>$(arg robot_namespace)_base_link</frameId>
+      <topicName>$(arg robot_namespace)_navsat/fix</topicName>
+      <velocityTopicName>$(arg robot_namespace)_navsat/vel</velocityTopicName>
+      <referenceLatitude>49.9</referenceLatitude>
+      <referenceLongitude>8.9</referenceLongitude>
+      <referenceHeading>0</referenceHeading>
+      <referenceAltitude>0</referenceAltitude>
+      <drift>0.0001 0.0001 0.0001</drift>
+    </plugin>
+  </gazebo>
+  <!-- camera size="0.0528 0.045 0.044"  -->
+  <!-- <xacro:property name="camera_offset_x" value="0.00" />
+  <xacro:property name="camera_offset_y" value="${0.2195}" />
+  <xacro:property name="camera_offset_z" value="${0.4525+0.062/2}" /> -->
+  <xacro:property name="camera_offset_x" value="0.00" />
+  <xacro:property name="camera_offset_y" value="${0.2195+0.010}" />
+  <xacro:property name="camera_offset_z" value="${0.4525+0.062/2}" />
+  <xacro:property name="picture_width" value="640" />
+  <xacro:property name="picture_height" value="480" />
+  <xacro:property name="camera_fov" value="${90/180*M_PI}" />
+
+  <!-- Camera -->
+  <!-- 0.1828-0.0264=0.1564  -->
+  <xacro:usb_camera prefix="$(arg robot_namespace)_front_camera" parent="$(arg robot_namespace)_base_link" hz="30" fov="${camera_fov}}" width="${picture_width}" height="${picture_height}"
+        x="${camera_offset_y+camera_offset_x}" y="0.0" z="${camera_offset_z}" roll="0.0" pitch="0.0" yaw="0.0" />
+  <xacro:usb_camera prefix="$(arg robot_namespace)_rear_camera" parent="$(arg robot_namespace)_base_link" hz="30" fov="${camera_fov}"  width="${picture_width}" height="${picture_height}"
+        x="${-camera_offset_y-camera_offset_x}" y="0.0" z="${camera_offset_z}" roll="0.0" pitch="0.0" yaw="${M_PI}" />
+  <xacro:usb_camera prefix="$(arg robot_namespace)_left_camera" parent="$(arg robot_namespace)_base_link" hz="30" fov="${camera_fov}"  width="${picture_width}" height="${picture_height}"
+        x="0.0" y="${camera_offset_y}" z="${camera_offset_z}" roll="0.0" pitch="0.0" yaw="${M_PI/2}" />
+  <xacro:usb_camera prefix="$(arg robot_namespace)_right_camera" parent="$(arg robot_namespace)_base_link" hz="30" fov="${camera_fov}"  width="${picture_width}" height="${picture_height}"
+        x="0.0" y="${-camera_offset_y}" z="${camera_offset_z}" roll="0.0" pitch="0.0" yaw="${-M_PI/2}"/>
+
+
+</robot>

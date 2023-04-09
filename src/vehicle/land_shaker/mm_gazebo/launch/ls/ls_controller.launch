@@ -1,0 +1,16 @@
+<launch>
+
+    # base controllers
+    <rosparam file="$(find mm_gazebo)/config/base_controllers.yaml" command="load" />
+
+    # ur5e controllers
+    <rosparam file="$(find mm_gazebo)/config/ur5e_controllers.yaml" command="load" />
+
+    <!-- 启动controller -->
+    <node name="ls_controller_spawner" pkg="controller_manager" type="spawner" respawn="true" output="screen" args="
+        twd_joint_publisher
+        track_velocity_controller
+        manipulator_controller
+        " />
+
+</launch>

@@ -1,0 +1,26 @@
+<launch>
+    <arg name="vel_topic" default="/cmd_vel"/>
+
+    <arg name="odom_topic" default="odom" />
+    <arg name="pc_topic" default="sensor_scan" />
+    <arg name="laser_topic" default="scan" />
+    <arg name="prefix" default="ls_teb"/>
+
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+        <rosparam file="$(find mm_navigation)/config/ls/$(arg prefix)_costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find mm_navigation)/config/ls/$(arg prefix)_costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find mm_navigation)/config/ls/$(arg prefix)_local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find mm_navigation)/config/ls/$(arg prefix)_global_costmap_params.yaml" command="load" />
+        <rosparam file="$(find mm_navigation)/config/ls/$(arg prefix)_local_planner_params.yaml" command="load" />
+        
+        <!-- reset frame_id parameters using user input data -->
+        <remap from="/cmd_vel" to="$(arg vel_topic)"/>
+        <remap from="/odom" to="$(arg odom_topic)"/>
+        <remap from="pc_topic" to="$(arg pc_topic)"/>
+        <remap from="scan" to="$(arg laser_topic)"/>
+
+        <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+        <param name="controller_frequency" value="10.0" />
+    </node>
+
+</launch>

@@ -1,0 +1,61 @@
+<launch>
+
+    <arg name="rviz" default="true" />
+    <arg name="planner" default="twd_teb" /> <!-- twd_teb, twd_teb_3d -->
+    <arg name="amcl" default="true" />
+    <arg name="mapping" default="true" />
+    <arg name="mapping_algorithm" default="octomap" /> <!-- octomap, may_by_tf -->
+
+
+    <group if="$(eval arg('planner') == 'twd_teb')">
+        # 加载地图
+        <arg name="real_map" default="demo.yaml" />
+        <node name="map_server" pkg="map_server" type="map_server" args="$(find wbot_navigation)/maps/$(arg real_map)" />
+
+        <!-- localization -->
+        # option 1 : 对于虚拟定位，需要设置一个/odom与/map之间的静态坐标变换
+        <group unless="$(arg amcl)">
+            <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 /map /world 50" />
+        </group>
+
+        # option 2 : 使用AMCL节点和真实地图进行定位
+        <group if="$(arg amcl)">
+            <include file="$(find wbot_navigation)/launch/twd_amcl.launch">
+                <arg name="odom_frame_id" value="world" />
+                <arg name="base_frame_id" value="base_link" />
+                <arg name="global_frame_id" value="map" />
+            </include>
+        </group>
+    </group>
+
+    <group if="$(eval arg('planner') == 'twd_teb_3d')">
+        <arg name="fake_map" default="init.yaml" />
+        <node name="map_server" pkg="map_server" type="map_server" args="$(find wbot_navigation)/maps/$(arg fake_map)" />
+        # 3d mapping
+        <group if="$(arg mapping)">
+            <group if="$(eval arg('mapping_algorithm') == 'octomap')">
+                <include file="$(find map_tools)/launch/octomap_server.launch" />
+            </group>
+            <group if="$(eval arg('mapping_algorithm') == 'may_by_tf')">
+                <include file="$(find map_tools)/launch/map_by_tf.launch" />
+            </group>
+        </group>
+
+        # 虚拟定位，设置一个/odom与/map之间的静态坐标变换
+        <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 /map /world 50" />
+    </group>
+
+
+    <!-- 运行move_base节点 -->
+    <include file="$(find wbot_navigation)/launch/twd_teb_move_base.launch">
+        <arg name="vel_topic" value="/twd_velocity_controller/cmd_vel" />
+        <arg name="odom_topic" value="/twd_odom_gt" />
+        <arg name="pc_topic" value="/velodyne_points" />
+        <arg name="prefix" value="$(arg planner)" />
+    </include>
+
+    <!-- 运行rviz -->
+    <group if="$(arg rviz)">
+        <node pkg="rviz" type="rviz" name="rviz_nav" args="-d $(find wbot_navigation)/rviz/nav.rviz" />
+    </group>
+</launch>

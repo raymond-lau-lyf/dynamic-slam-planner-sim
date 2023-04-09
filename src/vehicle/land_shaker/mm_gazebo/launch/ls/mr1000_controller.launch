@@ -1,0 +1,11 @@
+<launch>
+
+    # base controllers
+    <rosparam file="$(find mr1000)/config/control.yaml" command="load" />
+
+    # ur5e controllers
+
+    <!-- 启动controller -->
+    <node name="base_controller_spawner" pkg="controller_manager" type="spawner" respawn="true" args="mr1000_joint_publisher mr1000_velocity_controller" />
+
+</launch>

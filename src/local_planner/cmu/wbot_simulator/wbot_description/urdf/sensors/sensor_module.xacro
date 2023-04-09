@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="sensor_module">
+
+    <xacro:macro name="sensor_module" params="parent *origin vlp_enable:=true camera_enable:=true imu_enable:=true rplidar_enable:=true">
+
+        <!-- sensor link  -->
+        <link name="sensor_link" />
+        <joint name="sensor_link_joint" type="fixed">
+            <xacro:insert_block name="origin" />
+            <parent link="${parent}" />
+            <child link="sensor_link" />
+        </joint>
+
+        <!-- velodyne16 -->
+        <!-- <xacro:if value="${vlp_enable}">
+            <xacro:include filename="$(find wbot_description)/urdf/sensors/velodyne.urdf.xacro" />
+            <xacro:VLP-16 parent="sensor_link" name="sensor" topic="/sensor_scan" organize_cloud="false" hz="10" samples="1800" min_range ="0.05" gpu="true">
+                <origin xyz="0.00 0 0.0000" rpy="0 0 0" />
+            </xacro:VLP-16>
+        </xacro:if> -->
+
+        <!-- velodyne64 -->
+        <xacro:if value="${vlp_enable}">
+            <xacro:include filename="$(find wbot_description)/urdf/sensors/HDL-32E.urdf.xacro" />
+            <xacro:HDL-32E parent="sensor_link" name="sensor" topic="/sensor_scan" hz="10" lasers="64" samples="1800" min_range ="0.2" gpu="true">
+                <origin xyz="0.00 0 0.0000" rpy="0 0 0" />
+            </xacro:HDL-32E>
+        </xacro:if>
+
+        <!-- camera -->
+        <xacro:if value="${camera_enable}">
+            <!-- <xacro:include filename="$(find wbot_description)/urdf/sensors/CameraSensor.xacro" />
+            <xacro:Macro_CameraROS name="realsense" parent="sensor_link" frame="camera_link" fov="1.3962634" hz="60" width="640" height="480">
+                <origin xyz="0.02 0.02 0.15" rpy="0 0 0" />
+            </xacro:Macro_CameraROS> -->
+
+            <xacro:include filename="$(find wbot_description)/urdf/sensors/kinect.urdf.xacro" />
+            <xacro:sensor_kinect  parent="sensor_link" frame="camera_link" fov="60" hz="10" width="640" height="480">
+                <origin xyz="0.00 0.00 0.2" rpy="0 0 0" />
+            </xacro:sensor_kinect>
+
+
+        </xacro:if>
+
+
+        <!-- IMU -->
+        <xacro:if value="${imu_enable}">
+            <xacro:include filename="$(find wbot_description)/urdf/sensors/IMUSensor.xacro" />
+            <xacro:Macro_IMUROS name="Xsens" parent="sensor_link" frame="imu_link" topic="imu/data" rate="200">
+                <origin xyz="0.02 -0.02 0.14" rpy="0 0 0" />
+            </xacro:Macro_IMUROS>
+        </xacro:if>
+
+        <!-- rplidar -->
+        <xacro:if value="${rplidar_enable}">
+            <xacro:include filename="$(find wbot_description)/urdf/sensors/rplidar.xacro" />
+            <xacro:rplidar parent="sensor_link" prefix="laser">
+                <origin xyz="0 0 0.1" rpy="0 0 0"/>
+            </xacro:rplidar>
+        </xacro:if>
+
+    </xacro:macro>
+</robot>

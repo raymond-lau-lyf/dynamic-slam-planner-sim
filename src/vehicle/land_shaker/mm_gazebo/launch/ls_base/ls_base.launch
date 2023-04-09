@@ -1,0 +1,48 @@
+<launch>
+  <!-- <arg name="model_pose" default="-x -14.78 -y -13.91 -z 0.5 -R 0 -P 0 -Y 0"/>
+  <arg name="world_name" default="/home/wang/wang/git_files/simulation_workspaces/gazebo_maps/height_maze/quad_cliff.world"/> -->
+  <arg name="model_pose" default="-x 1 -y 1 -z 0.15 -R 0 -P 0 -Y 0" />
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <!-- <arg name="world_name" value="$(arg world_name)"/> -->
+    <arg name="paused" value="false" />
+    <arg name="use_sim_time" value="true" />
+    <arg name="gui" value="true" />
+    <arg name="headless" value="false" />
+    <arg name="debug" value="false" />
+  </include>
+
+  <!-- Load robot description -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find mm_description)/urdf/ls/ls.xacro'" />
+
+  <node name="large_spawn_model" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model lbet $(arg model_pose)" />
+
+  <!-- <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"/> -->
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="large_robot_state_publisher">
+    <param name="publish_frequency" type="double" value="50.0" />
+  </node>
+
+  <!-- Load controller configuration & Start spawn controllers -->
+  <!-- <rosparam file="$(find mm_gazebo)/config/base_controllers.yaml" command="load" />
+  <node name="base_controller_spawner" pkg="controller_manager" type="spawner" args="twd_joint_publisher push_joint_position_controller sprocket_velocity_controller track_velocity_controller " /> -->
+
+
+  <node name="cmd_relay" pkg="topic_tools" type="relay" args="/cmd_vel /track_velocity_controller/cmd_vel" output="screen" />
+
+  <node pkg="teleop_twist_keyboard" type="twist_to_std_msg.py" name="twist_to_std_msg_node" />
+  <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard_node" launch-prefix="xterm -e" />
+  
+  # odom ground truth to tf and path
+  <node pkg="odom_to_tf_and_path" type="odom2tfAndPath" name="odom_gt_tf" output="screen">
+    <param name="odom_topic" value="/ls_odom_gt" />
+    <param name="parent_frame" value="/world" />
+    <param name="child_frame" value="/base_footprint" />
+    <param name="path_enable" value="true" />
+    <param name="path_topic" value="/ls_path_gt" />
+    <param name="path_points_topic" value="/ls_path_points_gt" />
+    <param name="path_dist_threshold" value="0.1" />
+    <param name="path_angle_threshold" value="2" />
+  </node>
+
+  <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find mm_gazebo)/rviz/base_demo.rviz" />
+</launch>

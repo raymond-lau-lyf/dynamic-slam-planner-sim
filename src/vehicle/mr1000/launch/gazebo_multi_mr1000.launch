@@ -1,0 +1,40 @@
+<launch>
+  <arg name="world_name" default="$(find mr1000)/worlds/community.world" />
+    <!-- 添加一个world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" >
+    <arg name="world_name" value="$(arg world_name)"/>
+    <arg name="debug" value="false"/>
+    <arg name="gui" value="true"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="verbose" default="false"/>
+  </include>
+
+  <include file="$(find mr1000)/launch/spawn_mr1000.launch">
+    <arg name="group_ns" value="robot1"/>
+    <arg name="x" default="1.0"/>
+    <arg name="y" default="1.0"/>
+    <arg name="z" default="0.0"/>
+    <arg name="yaw" default="0.0"/>
+  </include>
+
+  <include file="$(find mr1000)/launch/spawn_mr1000.launch">
+    <arg name="group_ns" value="robot2"/>
+    <arg name="x" default="-1.0"/>
+    <arg name="y" default="-1.0"/>
+    <arg name="z" default="0.0"/>
+    <arg name="yaw" default="0.0"/>
+  </include>
+
+  <!-- <include file="$(find mr1000)/launch/spawn_mr1000.launch">
+    <arg name="group_ns" value="robot3"/>
+    <arg name="x" default="1.0"/>
+    <arg name="y" default="-1.0"/>
+    <arg name="z" default="0.0"/>
+    <arg name="yaw" default="0.0"/>
+  </include> -->
+  
+  
+  <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find mr1000)/multi_world.rviz"/>
+</launch>

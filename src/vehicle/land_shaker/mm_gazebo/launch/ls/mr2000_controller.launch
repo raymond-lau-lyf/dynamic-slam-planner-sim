@@ -1,0 +1,15 @@
+<launch>
+
+    # base controllers
+    <rosparam file="$(find mr2000)/config/control.yaml" command="load" />
+
+    # ur5e controllers
+
+    <!-- 启动controller -->
+    <node name="ls_controller_spawner" pkg="controller_manager" type="spawner" respawn="true" output="screen" args="
+        twd_joint_publisher
+        track_velocity_controller
+        manipulator_controller
+        " />
+
+</launch>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <name>wbot_description</name>
+  <version>0.0.0</version>
+  <description>The wbot_description package</description>
+
+  <maintainer email="wyl410922@qq.com">Wang yanliang</maintainer>
+
+  <license>BSD</license>
+
+  <author email="wyl410922@qq.com">Wang yanliang</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>joint_state_publisher</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>rviz</run_depend>
+
+  <export>
+  </export>
+</package>

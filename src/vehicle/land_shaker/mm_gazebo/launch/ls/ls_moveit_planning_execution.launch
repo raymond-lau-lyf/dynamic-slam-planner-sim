@@ -1,0 +1,29 @@
+<launch>
+  # The planning and execution components of MoveIt! configured to 
+ # publish the current configuration of the robot (simulated or real)
+ # and the current state of the world as seen by the planner
+  
+  <arg name="sensor_topic" default="/LiDAR_16_1"/>
+  <arg name="moveit_sensor" default="false"/>
+
+  <arg name="load_robot_description" default="false"/>
+  <include file="$(find mm_moveit_config)/launch/move_group.launch">
+    <arg name="publish_monitored_planning_scene" value="true" />
+    <arg name="load_robot_description" value="$(arg load_robot_description)"/>
+    <arg name="allow_trajectory_execution" value="true"/>
+    <arg name="fake_execution" value="false"/>
+    <arg name="info" value="true"/>
+    <arg name="sensor_topic" value="$(arg sensor_topic)"/>
+    <arg name="moveit_sensor" value="$(arg moveit_sensor)"/>
+  </include>
+  # The visualization component of MoveIt!
+  <arg name="rviz" default="true"/>
+  <node if="$(arg rviz)" pkg="rviz" type="rviz" name="rviz_moveit_large_base" args="-d $(find mm_moveit_config)/launch/rviz/large_base.rviz" />
+
+  <!-- 订阅gazebo发布的joint_states,发布/joint_states给/move_group  -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="/use_gui" value="false" />
+    <rosparam param="/source_list">[/joint_states]</rosparam>
+  </node>
+
+</launch>

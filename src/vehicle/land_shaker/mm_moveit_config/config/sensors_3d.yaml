@@ -1,0 +1,10 @@
+# The name of this file shouldn't be changed, or else the Setup Assistant won't detect it
+sensors:
+  - filtered_cloud_topic: /pc_for_moveit_filtered
+    max_range: 10.0
+    max_update_rate: 10.0
+    padding_offset: 0.1
+    padding_scale: 1.0
+    point_cloud_topic: /pc_for_moveit
+    point_subsample: 1
+    sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater

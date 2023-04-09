@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mobile_manipulator">
+
+    <xacro:macro name="supporters" params="parent:=vehicle_base_link">
+        <link name="board_link">
+            <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+            <visual>
+                <geometry>
+                    <mesh filename="package://mm_description/meshes/vehicle/board_link.STL" />
+                </geometry>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://mm_description/meshes/vehicle/board_link.STL" />
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="support_link">
+            <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+            <visual>
+                <geometry>
+                    <mesh filename="package://mm_description/meshes/vehicle/support_link.STL" />
+                </geometry>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://mm_description/meshes/vehicle/support_link.STL" />
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="lidar_support_link">
+            <origin xyz="0.0 0.0 0.0" rpy="-3.14 0 0" />
+            <visual>
+                <geometry>
+                    <mesh filename="package://mm_description/meshes/vehicle/lidar_support.STL" />
+                </geometry>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://mm_description/meshes/vehicle/lidar_support.STL" />
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="lidar_support_joint" type="fixed">
+            <origin xyz="0.14 0.0 0.68" rpy="0 0 0" />
+            <parent link="support_link" />
+            <child link="lidar_support_link" />
+        </joint>
+
+        <joint name="board_joint" type="fixed">
+            <origin xyz="-0.055 0 0.32" rpy="0 0 0" />
+            <parent link="${parent}" />
+            <child link="board_link" />
+        </joint>
+
+        <joint name="support_joint" type="fixed">
+            <origin xyz="${support_offset_x} ${support_offset_y} ${support_offset_z}" rpy="0 0 0" />
+            <parent link="${parent}" />
+            <child link="support_link" />
+        </joint>
+
+    </xacro:macro>
+
+</robot>

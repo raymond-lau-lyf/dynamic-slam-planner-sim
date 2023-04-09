@@ -1,0 +1,20 @@
+<launch>
+    <arg name="model_pose" default="-x 0 -y 0 -z 0.15" />
+    <arg name="model" default="$(find mr2000)/urdf/mr2000_motor.urdf.xacro" />
+
+    <param name="/robot_description" command="$(find xacro)/xacro --inorder '$(arg model)' " />
+
+    <node name="ls_spawn_model" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model mr2000 $(arg model_pose)" />
+
+    
+    <rosparam file="$(find mr2000)/config/control.yaml" command="load"/>
+  <node name="base_controller_spawner" pkg="controller_manager" type="spawner"
+      args="mr2000_joint_publisher mr2000_velocity_controller"/>
+
+    <!-- 订阅joint_states 发布robot state到tf -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+        <!-- <param name="tf_prefix" value="$(arg group_ns)"/> -->
+        <param name="publish_frequency" type="double" value="50.0" />
+    </node>
+
+</launch>

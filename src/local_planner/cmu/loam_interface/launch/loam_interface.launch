@@ -1,0 +1,20 @@
+<launch>
+
+  <arg name="stateEstimationTopic" default="/lio_sam/mapping/odometry"/>
+  <arg name="registeredScanTopic" default="/lio_sam/mapping/cloud_registered"/>
+  <arg name="sensorFrame" default="/sensor"/>
+  <arg name="flipStateEstimation" default="false"/>
+  <arg name="flipRegisteredScan" default="false"/>
+  <arg name="sendTF" default="false"/>
+  <arg name="reverseTF" default="false"/>
+  <node pkg="loam_interface" type="loamInterface" name="loamInterface" output="screen" required="true">
+    <param name="stateEstimationTopic" type="string" value="$(arg stateEstimationTopic)" />
+    <param name="registeredScanTopic" type="string" value="$(arg registeredScanTopic) " />
+    <param name="flipStateEstimation" type="bool" value="$(arg flipStateEstimation)" />
+    <param name="flipRegisteredScan" type="bool" value="$(arg flipRegisteredScan)" />
+    <param name="sendTF" type="bool" value="$(arg sendTF)" />
+    <param name="sensorFrame" type="string" value="$(arg sensorFrame)" />
+    <param name="reverseTF" type="bool" value="$(arg reverseTF)" />
+  </node>
+
+</launch>

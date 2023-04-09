@@ -1,0 +1,33 @@
+<launch>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" >
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- Load robot description -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find mr2000)/urdf/mr2000_motor.urdf.xacro'"/>
+  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" output="screen" 
+      args="-urdf -param robot_description -model mr2000" />
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+      <param name="publish_frequency" type="double" value="30.0" />
+  </node>
+
+  <!-- Load controller configuration & Start spawn controllers -->
+  <rosparam file="$(find mr2000)/config/control.yaml" command="load"/>
+  <node name="base_controller_spawner" pkg="controller_manager" type="spawner"
+      args="mr2000_joint_publisher mr2000_velocity_controller"/>
+
+  <!-- Start EKF for localization -->
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+    <rosparam command="load" file="$(find mr2000)/config/localization.yaml" />
+  </node>
+
+  <node pkg="mr2000" type="mrobot_teleop.py" name="teleop_vel" launch-prefix="xterm -e" required="true">
+    <remap from="cmd_vel" to="mr2000_velocity_controller/cmd_vel"/>
+  </node>
+  <node pkg="rviz" type="rviz" name="rviz" required="true" args="-d $(find mr2000)/world.rviz"/>
+</launch>

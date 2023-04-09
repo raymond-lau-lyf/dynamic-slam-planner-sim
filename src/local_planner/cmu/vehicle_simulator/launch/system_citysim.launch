@@ -1,0 +1,82 @@
+<launch>
+
+  <arg name="world_name" default="simple_city_erboutput"/>
+  <arg name="vehicleHeight" default="0.75"/>
+  <arg name="cameraOffsetZ" default="0"/>
+  <arg name="vehicleX" default="0"/>
+  <arg name="vehicleY" default="0"/>
+  <arg name="terrainZ" default="5.025"/>
+  <arg name="vehicleYaw" default="0"/>
+  <arg name="gazebo_gui" default="true"/>
+  <arg name="checkTerrainConn" default="true"/>
+  <arg name="teleop" default="false"/>
+  <arg name="cmd_vel_topic" default="/fwd_velocity_controller/cmd_vel"/>
+  <!-- <arg name="model_pose" default="-x 0 -y 0 -z 5.3 -R 0 -P 0 -Y 0" /> -->
+  <!-- <arg name="model_pose" default="-x 50.5 -y 45 -z 5.3 -R 0 -P 0 -Y 0" /> --> 
+  <arg name="model_pose" default="-x -15 -y 44.8 -z 5.3 -R 0 -P 0 -Y 0" />
+
+  # 手柄驱动
+  <!-- <include file="$(find ps3joy)/launch/ps3.launch" /> -->
+
+  # local_planner: 负责碰撞检测，生成基于motion primitives的预计算路径
+  <include file="$(find local_planner)/launch/local_planner.launch" >
+    <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
+    <arg name="goalX" value="$(arg vehicleX)"/>
+    <arg name="goalY" value="$(arg vehicleY)"/>
+    <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
+  </include>
+
+  # terrain_analysis
+  <include file="$(find terrain_analysis)/launch/terrain_analysis.launch" />
+
+  <include file="$(find terrain_analysis_ext)/launch/terrain_analysis_ext.launch" >
+    <arg name="checkTerrainConn" value="$(arg checkTerrainConn)"/>
+  </include>
+
+  # 比较核心的一部分，包括位姿估计，
+  # 并且这里有根据速度转为gazebo/set_model_state的步骤（应该是速度乘delta_t得到的位姿），并不是真正仿真机器人的运动模型
+  <!-- <include file="$(find vehicle_simulator)/launch/vehicle_simulator.launch" >
+    <arg name="world_name" value="$(arg world_name)"/>
+    <arg name="vehicleHeight" value="$(arg vehicleHeight)"/>
+    <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
+    <arg name="vehicleX" value="$(arg vehicleX)"/>
+    <arg name="vehicleY" value="$(arg vehicleY)"/>
+    <arg name="terrainZ" value="$(arg terrainZ)"/>
+    <arg name="vehicleYaw" value="$(arg vehicleYaw)"/>
+    <arg name="gui" value="$(arg gazebo_gui)"/>
+  </include> -->
+
+  <include file="$(find wbot_gazebo)/launch/fwd_bringup.launch" >
+    <arg name="world_name" value="$(find vehicle_simulator)/world/$(arg world_name).world"/>
+    <arg name="gui" value="$(arg gazebo_gui)"/>
+    <arg name="rviz" value="false"/>
+    <arg name="teleop" value="$(arg teleop)"/>
+    <arg name="model_pose" value="$(arg model_pose)"/>
+  </include>
+  
+  <include file="$(find loam_interface)/launch/loam_interface.launch" >
+    <arg name="stateEstimationTopic" value="/odometry/imu_incremental"/>
+    <arg name="registeredScanTopic" value="/lio_sam/mapping/cloud_registered"/>
+    <arg name="flipStateEstimation" value="false"/>
+    <arg name="flipRegisteredScan" value="false"/>
+    <arg name="sendTF" value="false"/>
+    <arg name="reverseTF" value="false"/>
+  </include>
+  
+  # lio-sam
+  <include file="$(find lio_sam)/launch/run.launch">
+    <arg name="param_file" value="params_fwd_64"/>
+    <arg name="rviz" value="false"/>
+  </include>
+
+  # 生成 以sensor坐标系下的雷达点云
+  <!-- <include file="$(find sensor_scan_generation)/launch/sensor_scan_generation.launch" /> -->
+
+  # 用于可视化地图，计算exploration的时间消耗，探索空间增量
+  <!-- <include file="$(find visualization_tools)/launch/visualization_tools.launch" >
+    <arg name="world_name" value="forest"/>
+  </include> -->
+
+  <node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizGA" args="-d $(find vehicle_simulator)/rviz/vehicle_simulator.rviz" respawn="true"/>
+
+</launch>

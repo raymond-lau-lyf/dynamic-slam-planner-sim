@@ -1,0 +1,135 @@
+<launch>
+  <arg name="is_cmu" default="true"/>
+  <arg name="is_fast_lio" default="true"/>
+  <arg name="world_name" default="simple_city_erboutput"/>
+  <arg name="sensorFrame" default="/sensor"/>
+  <arg name="vehicleHeight" default="0.75"/>
+  <arg name="cameraOffsetZ" default="0"/>
+  <arg name="vehicleX" default="0"/>
+  <arg name="vehicleY" default="0"/>
+  <!-- <arg name="terrainZ" default="5.025"/> -->
+  <arg name="vehicleYaw" default="0"/>
+  <arg name="gazebo_gui" default="true"/>
+  <arg name="checkTerrainConn" default="true"/>
+  <arg name="teleop" default="false"/>
+  <!-- <arg name="cmd_vel_topic" default="/mr2000_velocity_controller/cmd_vel"/> -->
+  <arg name="cmd_vel_topic" default="/husky_velocity_controller/cmd_vel"/>
+
+
+    <arg name="model_pose" default="-x -15 -y 44.8 -z 5.3 -R 0 -P 0 -Y 0" />
+  <!-- <arg name="model_pose" default="-x 0 -y 0 -z 0 -R 0 -P 0 -Y 0" /> -->
+    <group if="$(arg is_fast_lio)">
+      <arg name="stateEstimationTopic" value="/Odometry"/>
+      <arg name="registeredScanTopic" value="/cloud_registered"/>
+    </group>
+    <group unless="$(arg is_fast_lio)">
+      <arg name="stateEstimationTopic" value="/odometry/imu_incremental"/>
+      <arg name="registeredScanTopic" value="/lio_sam/mapping/cloud_registered"/>
+    </group>
+
+<group if="$(arg is_cmu)">
+  # 手柄驱动
+  <!-- <include file="$(find ps3joy)/launch/ps3.launch" /> -->
+  <include file="$(find husky_gazebo)/launch/husky_bringup.launch">
+    <arg name="world_name" value="$(find vehicle_simulator)/world/$(arg world_name).world"/>
+    <arg name="gui" value="$(arg gazebo_gui)"/>
+    <arg name="rviz" value="false"/>
+    <arg name="teleop_base" value="$(arg teleop)"/>
+    <arg name="model_pose" value="$(arg model_pose)"/>
+    <arg name="is_fast_lio" value="$(arg is_fast_lio)"/>
+    <arg name="ground_truth" value="true"/>
+  </include> 
+
+
+
+  <include file="$(find loam_interface)/launch/loam_interface.launch" >
+# fast_lio
+      <arg name="stateEstimationTopic" value="/Odometry"/>
+      <arg name="registeredScanTopic" value="/cloud_registered"/>
+
+# lio_sam
+      <!-- <arg name="stateEstimationTopic" value="/odometry/imu_incremental"/>
+      <arg name="registeredScanTopic" value="/lio_sam/mapping/cloud_registered"/> -->
+    <arg name="flipStateEstimation" value="false"/>
+    <arg name="flipRegisteredScan" value="false"/>
+    <arg name="sendTF" value="false"/>
+    <arg name="sensorFrame" value="$(arg sensorFrame)"/>
+    <arg name="reverseTF" value="false"/>
+  </include>
+  
+  <group if="$(arg is_fast_lio)">
+    <node pkg="tf" type="static_transform_publisher" name="body_to_base_link" args="0  0 -0.913 0 0 0 /body /base_link 10" />
+    <node pkg="tf" type="static_transform_publisher" name="map_to_camera_init" args="0 0 0 0 0 0 /map /camera_init 10" /> 
+    <include file="$(find fast_lio)/launch/mapping_velodyne_ls.launch">
+      <arg name="rviz" value="false"/>
+    </include> 
+  </group>
+  <group unless="$(arg is_fast_lio)">
+    <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="0 0 0 0 0 0 /world /map 10" />
+    <include file="$(find lio_sam)/launch/run.launch">
+      <arg name="param_file" value="params_mr"/>
+      <arg name="rviz" value="false"/>
+    </include> 
+  </group>
+
+
+
+
+
+  <node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizGA" args="-d $(find vehicle_simulator)/rviz/vehicle_simulator.rviz" respawn="true"/>
+
+  <include file="$(find local_planner)/launch/local_planner_ls.launch" >
+    <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
+    <arg name="goalX" value="$(arg vehicleX)"/>
+    <arg name="goalY" value="$(arg vehicleY)"/>
+    <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
+    <arg name="sensorFrame" value="$(arg sensorFrame)"/>
+  </include>
+
+  # terrain_analysis
+  <include file="$(find terrain_analysis)/launch/terrain_analysis.launch" />
+
+  <include file="$(find terrain_analysis_ext)/launch/terrain_analysis_ext.launch" >
+    <arg name="checkTerrainConn" value="$(arg checkTerrainConn)"/>
+  </include>
+</group>
+
+<group unless="$(arg is_cmu)">
+
+  <include file="$(find husky_gazebo)/launch/husky_bringup.launch">
+    <arg name="world_name" value="$(find vehicle_simulator)/world/$(arg world_name).world"/>
+    <arg name="gui" value="$(arg gazebo_gui)"/>
+    <arg name="rviz" value="false"/>
+    <arg name="teleop_base" value="$(arg teleop)"/>
+    <arg name="model_pose" value="$(arg model_pose)"/>
+    <arg name="ground_truth" value="false"/>
+  </include> 
+  <include file="$(find mm_navigation)/launch/ls_nav_demo.launch">
+    <arg name="rviz" value="true"/>
+    <arg name="ground_truth" default="true"/>
+  </include> 
+  <include file="$(find loam_interface)/launch/loam_interface.launch" >
+# fast_lio
+      <arg name="stateEstimationTopic" value="/Odometry"/>
+      <arg name="registeredScanTopic" value="/cloud_registered"/>
+
+# lio_sam
+      <!-- <arg name="stateEstimationTopic" value="/odometry/imu_incremental"/>
+      <arg name="registeredScanTopic" value="/lio_sam/mapping/cloud_registered"/> -->
+    <arg name="flipStateEstimation" value="false"/>
+    <arg name="flipRegisteredScan" value="false"/>
+    <arg name="sendTF" value="false"/>
+    <arg name="sensorFrame" value="$(arg sensorFrame)"/>
+    <arg name="reverseTF" value="false"/>
+  </include>
+  <include file="$(find terrain_analysis)/launch/terrain_analysis.launch" />
+
+  <include file="$(find terrain_analysis_ext)/launch/terrain_analysis_ext.launch" >
+    <arg name="checkTerrainConn" value="$(arg checkTerrainConn)"/>
+  </include>
+
+    
+</group>
+
+
+</launch>

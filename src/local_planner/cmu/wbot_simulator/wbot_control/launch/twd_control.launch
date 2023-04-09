@@ -1,0 +1,8 @@
+<launch>
+
+  # Load controller configuration and Start spawn controllers
+  <rosparam file="$(find wbot_control)/config/twd_control.yaml" command="load" />
+  
+  <node name="base_controller_spawner" pkg="controller_manager" type="spawner" args="twd_joint_publisher twd_velocity_controller" />
+
+</launch>
