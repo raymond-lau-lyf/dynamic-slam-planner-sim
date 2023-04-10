@@ -88,9 +88,9 @@
   <group if="$(arg is_fast_lio)">
     <node pkg="tf" type="static_transform_publisher" name="body_to_base_link" args="0  0 -0.634 0 0 0 /body /base_link 10" />
   <node pkg="tf" type="static_transform_publisher" name="map_to_camera_init" args="0 0 0 0 0 0 /map /camera_init 10" /> 
-    <!-- <include file="$(find fast_lio)/launch/mapping_velodyne_ls.launch">
+    <include file="$(find fast_lio)/launch/mapping_velodyne.launch">
       <arg name="rviz" value="false"/>
-    </include>  -->
+    </include> 
   </group>
   <group unless="$(arg is_fast_lio)">
     <node pkg="tf" type="static_transform_publisher" name="world_to_map" args="0 0 0 0 0 0 /world /map 10" />
