@@ -16,11 +16,11 @@
   <!-- <arg name="cmd_vel_topic" default="/mr2000_velocity_controller/cmd_vel"/> -->
   <arg name="cmd_vel_topic" default="/mr1000_velocity_controller/cmd_vel"/>
     <group if="$(arg is_fast_lio)">
-      <arg name="stateEstimationTopic" value="/Odometry"/>
+      <arg name="stateEstimationTopic" value="/aft_mapped_to_init"/>
       <arg name="registeredScanTopic" value="/cloud_registered"/>
     </group>
     <group unless="$(arg is_fast_lio)">
-      <arg name="stateEstimationTopic" value="/odometry/imu_incremental"/>
+      <arg name="stateEstimationTopic" value="/aft_mapped_to_init/imu_incremental"/>
       <arg name="registeredScanTopic" value="/lio_sam/mapping/cloud_registered"/>
     </group>
   <!-- <arg name="model_pose" default="-x 0 -y 0 -z 5.3 -R 0 -P 0 -Y 0" /> -->
@@ -70,11 +70,11 @@
 
   <include file="$(find loam_interface)/launch/loam_interface.launch" >
 # fast_lio
-      <arg name="stateEstimationTopic" value="/Odometry"/>
+      <arg name="stateEstimationTopic" value="/aft_mapped_to_init"/>
       <arg name="registeredScanTopic" value="/cloud_registered"/>
 
 # lio_sam
-      <!-- <arg name="stateEstimationTopic" value="/odometry/imu_incremental"/>
+      <!-- <arg name="stateEstimationTopic" value="/aft_mapped_to_init/imu_incremental"/>
       <arg name="registeredScanTopic" value="/lio_sam/mapping/cloud_registered"/> -->
     <arg name="flipStateEstimation" value="false"/>
     <arg name="flipRegisteredScan" value="false"/>
@@ -88,7 +88,7 @@
   <group if="$(arg is_fast_lio)">
     <node pkg="tf" type="static_transform_publisher" name="body_to_base_link" args="0  0 -0.634 0 0 0 /body /base_link 10" />
   <node pkg="tf" type="static_transform_publisher" name="map_to_camera_init" args="0 0 0 0 0 0 /map /camera_init 10" /> 
-    <include file="$(find fast_lio)/launch/mapping_velodyne.launch">
+    <include file="$(find fast_livo)/launch/mapping_gazebo.launch">
       <arg name="rviz" value="false"/>
     </include> 
   </group>
@@ -139,11 +139,11 @@
   <include file="$(find loam_interface)/launch/loam_interface.launch" >
 
 # fast_lio
-      <arg name="stateEstimationTopic" value="/Odometry"/>
+      <arg name="stateEstimationTopic" value="/aft_mapped_to_init"/>
       <arg name="registeredScanTopic" value="/cloud_registered"/>
 
 # lio_sam
-      <!-- <arg name="stateEstimationTopic" value="/odometry/imu_incremental"/>
+      <!-- <arg name="stateEstimationTopic" value="/aft_mapped_to_init/imu_incremental"/>
       <arg name="registeredScanTopic" value="/lio_sam/mapping/cloud_registered"/> -->
     <arg name="flipStateEstimation" value="false"/>
     <arg name="flipRegisteredScan" value="false"/>
