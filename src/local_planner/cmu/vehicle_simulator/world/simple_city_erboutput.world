@@ -10655,7 +10655,7 @@
 		<!-- walking -->
 
 		<!-- Animated vehicles  -->
-		<actor name="car_622">
+		<!-- <actor name="car_622">
 			<pose> -43.15 -90 5.01 0 0 0 </pose>
 			<include>
 				<name> suv_623 </name>
@@ -10878,7 +10878,7 @@
 					</waypoint>
 				</trajectory>
 			</script>
-		</actor>
+		</actor> -->
 		<!-- Animated vehicles -->
         
 		<!-- Prius  -->
