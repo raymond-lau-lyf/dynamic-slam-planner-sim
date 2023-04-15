@@ -43,6 +43,7 @@
   <!-- <xacro:include filename="$(find mr1000)/urdf/VLP-16.urdf.xacro"/> -->
   <xacro:include filename="$(find mr1000)/urdf/VLP-64.urdf.xacro"/>
   <!-- <xacro:include filename="$(find velodyne_description)/urdf/RS-Ruby80.urdf.xacro"/> -->
+  <xacro:include filename="$(find mr1000)/urdf/Customized.urdf.xacro"/>
   <!-- <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/> -->
   <!-- Base link is the center of the robot's base -->
   <link name="base_link">
@@ -168,11 +169,15 @@
   </VLP-16> -->
   
   <!-- VLP-64 -->
-  <VLP-64 parent="base_link" name="sensor" topic="/sensor_scan" hz="10" samples="1800" gpu="${gpu}" >
+  <!-- <VLP-64 parent="base_link" name="sensor" topic="/sensor_scan" hz="10" samples="1800" gpu="${gpu}" >
     <origin xyz="0 0 ${base_z_size + 0.38}" rpy="0 0 0" />
-  </VLP-64>
+  </VLP-64> -->
 
 
+  <!-- Customized_LiDAR -->
+    <xacro:Customized_LiDAR parent="base_link" name="sensor" topic="Ruby80" gpu="true" ns="/">
+        <origin xyz="0 0 0.08" rpy="0 0 0" />
+    </xacro:Customized_LiDAR>
   <!-- rslidar-80 -->
   <!---->
   <!-- <xacro:laserModel parent="base_link" name="${LiDARName}" topic="${topicName}" samples="${samples}" 
