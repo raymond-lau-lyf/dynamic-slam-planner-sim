@@ -298,8 +298,8 @@ namespace gazebo {
 
         static double last_time = 0;
         auto this_time = (ros::Time::now().toSec() - active_timestamp);
-        ROS_INFO("%s active time: %4.1lf, %4.1lf", lidar_topic_name_.c_str(), this_time,
-                this_time-last_time);
+        // ROS_INFO("%s active time: %4.1lf, %4.1lf", lidar_topic_name_.c_str(), this_time,
+        //         this_time-last_time);
         last_time = this_time;
     }
 
