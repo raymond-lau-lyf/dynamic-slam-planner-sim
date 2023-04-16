@@ -43,8 +43,9 @@
   <!-- <xacro:include filename="$(find mr1000)/urdf/VLP-16.urdf.xacro"/> -->
   <xacro:include filename="$(find mr1000)/urdf/VLP-64.urdf.xacro"/>
   <!-- <xacro:include filename="$(find velodyne_description)/urdf/RS-Ruby80.urdf.xacro"/> -->
-  <xacro:include filename="$(find mr1000)/urdf/Customized.urdf.xacro"/>
+  <!-- <xacro:include filename="$(find mr1000)/urdf/Customized.urdf.xacro"/> -->
   <!-- <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/> -->
+  <xacro:include filename="$(find ouster_os1_64)/urdf/os1_64.urdf.xacro"/>
   <!-- Base link is the center of the robot's base -->
   <link name="base_link">
     <inertial>
@@ -173,11 +174,15 @@
     <origin xyz="0 0 ${base_z_size + 0.38}" rpy="0 0 0" />
   </VLP-64> -->
 
+  <!-- os1_64 -->
+  <xacro:os1_64 parent="base" name="ouster" prefix="/os1_cloud_node" hz="10" samples="512"  gpu="true">
+    <origin xyz="0 0 1" rpy="0 0 0" />
+  </xacro:os1_64>
 
   <!-- Customized_LiDAR -->
-    <xacro:Customized_LiDAR parent="base_link" name="sensor" topic="Ruby80" gpu="true" ns="/">
+    <!-- <xacro:Customized_LiDAR parent="base_link" name="sensor" topic="Ruby80" gpu="true" ns="/">
         <origin xyz="0 0 0.08" rpy="0 0 0" />
-    </xacro:Customized_LiDAR>
+    </xacro:Customized_LiDAR> -->
   <!-- rslidar-80 -->
   <!---->
   <!-- <xacro:laserModel parent="base_link" name="${LiDARName}" topic="${topicName}" samples="${samples}" 
