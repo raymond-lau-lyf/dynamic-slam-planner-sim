@@ -6,7 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /Odometry2/Shape1
-        - /PointCloud21/Status1
+        - /PointCloud21
       Splitter Ratio: 0.6733167171478271
     Tree Height: 713
   - Class: rviz/Selection
@@ -667,7 +667,7 @@ Visualization Manager:
         Min Value: -10
         Value: true
       Axis: Z
-      Channel Name: intensity
+      Channel Name: ring
       Class: rviz/PointCloud2
       Color: 255; 255; 255
       Color Transformer: Intensity
@@ -682,7 +682,7 @@ Visualization Manager:
       Selectable: true
       Size (Pixels): 3
       Size (m): 0.03999999910593033
-      Style: Flat Squares
+      Style: Points
       Topic: /os1_cloud_node/points
       Unreliable: false
       Use Fixed Frame: true
@@ -721,25 +721,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 24.72926902770996
+      Distance: 6.09945011138916
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -2.220411539077759
-        Y: -1.4229897260665894
-        Z: 1.2590878009796143
+        X: -2.6965994834899902
+        Y: 0.13568606972694397
+        Z: 1.891360878944397
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.8047975301742554
+      Pitch: 0.3297984302043915
       Target Frame: base_link
       Value: Orbit (rviz)
-      Yaw: 2.896859884262085
+      Yaw: 3.1768620014190674
     Saved: ~
 Window Geometry:
   Displays:

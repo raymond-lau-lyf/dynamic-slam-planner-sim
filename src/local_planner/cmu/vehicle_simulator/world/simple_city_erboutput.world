@@ -10547,6 +10547,116 @@
 			</script>
 		</actor>
 
+		<actor name="talkingC">
+			<pose> -14.142 46.142 5.76 0 0 3.14 </pose>
+			<skin>
+				<filename> model://actor/meshes/SKIN_man_green_shirt.dae </filename>
+			</skin>
+			<animation name="animation">
+				<filename> model://actor/meshes/ANIMATION_talking_b.dae </filename>
+			</animation>
+			<script>
+				<trajectory id="0" type="animation">
+					<waypoint>
+						<time> 100 </time>
+						<pose> -14.142 46.142 5.16 0 0 0 </pose>
+					</waypoint>
+					<waypoint>
+						<time> 100 </time>
+						<pose> -14.142 46.142 5.16 0 0 0 </pose>
+					</waypoint>
+				</trajectory>
+			</script>
+		</actor>
+
+		<actor name="talkingD">
+			<pose> -12.425 47.425 5.76 0 0 0 </pose>
+			<skin>
+				<filename> model://actor/meshes/SKIN_man_green_shirt.dae </filename>
+			</skin>
+			<animation name="animation">
+				<filename> model://actor/meshes/ANIMATION_talking_b.dae </filename>
+			</animation>
+			<script>
+				<trajectory id="0" type="animation">
+					<waypoint>
+						<time> 100 </time>
+						<pose> -12.425 47.425 5.16 0 0 0 </pose>
+					</waypoint>
+					<waypoint>
+						<time> 100 </time>
+						<pose> -12.425 47.425 5.16 0 0 0 </pose>
+					</waypoint>
+				</trajectory>
+			</script>
+		</actor>
+
+		<actor name="talkingE">
+			<pose> -10.708 48.708 5.76 0 0 1.57 </pose>
+			<skin>
+				<filename> model://actor/meshes/SKIN_man_green_shirt.dae </filename>
+			</skin>
+			<animation name="animation">
+				<filename> model://actor/meshes/ANIMATION_talking_b.dae </filename>
+			</animation>
+			<script>
+				<trajectory id="0" type="animation">
+					<waypoint>
+						<time> 100 </time>
+						<pose> -10.708 48.708 5.16 0 0 0 </pose>
+					</waypoint>
+					<waypoint>
+						<time> 100 </time>
+						<pose> -10.708 48.708 5.16 0 0 0 </pose>
+					</waypoint>
+				</trajectory>
+			</script>
+		</actor>
+
+		<actor name="talkingF">
+			<pose> -9.192 49.192 5.76 0 0 0 </pose>
+			<skin>
+				<filename> model://actor/meshes/SKIN_man_green_shirt.dae </filename>
+			</skin>
+			<animation name="animation">
+				<filename> model://actor/meshes/ANIMATION_talking_b.dae </filename>
+			</animation>
+			<script>
+				<trajectory id="0" type="animation">
+					<waypoint>
+						<time> 100 </time>
+						<pose> -9.192 49.192 5.16 0 0 0 </pose>
+					</waypoint>
+					<waypoint>
+						<time> 100 </time>
+						<pose> -9.192 49.192 5.16 0 0 0 </pose>
+					</waypoint>
+				</trajectory>
+			</script>
+		</actor>
+
+		<actor name="talkingG">
+			<pose> -6.91 39.38 5.76 0 0 0 </pose>
+			<skin>
+				<filename> model://actor/meshes/SKIN_man_green_shirt.dae </filename>
+			</skin>
+			<animation name="animation">
+				<filename> model://actor/meshes/ANIMATION_talking_b.dae </filename>
+			</animation>
+			<script>
+				<trajectory id="0" type="animation">
+					<waypoint>
+						<time> 100 </time>
+						<pose> -6.91 39.38 5.16 0 0 0 </pose>
+					</waypoint>
+					<waypoint>
+						<time> 100 </time>
+						<pose> -6.91 39.38 5.16 0 0 0 </pose>
+					</waypoint>
+				</trajectory>
+			</script>
+		</actor>
+
 		<actor name="walking_6">
 			<pose> -5.0 50.2 5.76 0 0 1.5707963267948966 </pose>
 			<skin>

@@ -175,7 +175,7 @@
   </VLP-64> -->
 
   <!-- os1_64 -->
-  <xacro:os1_64 parent="base" name="ouster" prefix="/os1_cloud_node" hz="10" samples="512"  gpu="true">
+  <xacro:os1_64 parent="base" name="ouster" prefix="/os1_cloud_node" hz="10" samples="1024"  gpu="true">
     <origin xyz="0 0 1" rpy="0 0 0" />
   </xacro:os1_64>
 
